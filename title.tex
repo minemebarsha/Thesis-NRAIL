@@ -1,0 +1,71 @@
+%Layoutaenderung dank Corporate Design
+\newgeometry{top=4.2cm, bottom=1.3cm, left=2cm, right=2cm}
+
+
+\begin{titlepage}
+
+\begin{center}
+
+
+% Upper part of the page
+
+	\begin{textblock*}{1mm}(66mm,10mm)% %66 by trial and error
+		\includegraphics[height=32mm]{./logo_ths.png}
+	\end{textblock*}
+% \medskip
+	\fontsize{14pt}{16}\selectfont
+	\ifenglish\noindent \textbf{The present work was submitted to the LuFG Theory of Hybrid Systems}
+	\else\noindent\textbf{Diese Arbeit wurde vorgelegt am LuFG Theorie hybrider Systeme}\fi 
+
+\medskip
+\vspace*{2cm}
+
+% Bachelor or master thesis?
+\ifenglish\textsc{\Large Master of Science Thesis}
+\else\textsc{\Large ...arbeit}\fi \\[0.5cm]
+
+
+% Title
+\hrule \par\bigskip
+{ \huge \begin{spacing}{1.1} \centering{\textbf{\textsc{Incremental Linerization for SAT Modulo Real Arithmetic Solving}}} \end{spacing} }
+\par\bigskip
+\hrule \par\bigskip
+% Author and supervisor
+\large{\textbf{Aklima Zaman} \\
+}
+\vfill \vfill \vfill \vfill
+\begin{minipage}[b]{0.65\textwidth}
+ \large
+\ifenglish\emph{Examiners:}
+\else\emph{Pr\"ufer:}\fi \\
+Prof.~Dr.~Erika \'Abrah\'am \\
+Prof.~Dr.~Jürgen Giesl \\
+
+\ifenglish\emph{Additional Advisor:}
+\else\emph{Zus\"atzlicher Berater:} \fi\\
+Gereon Kremer\\
+
+
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+ 
+			\ifenglish\begin{flushright}
+                            {Aachen, Date}
+			    
+                        \end{flushright}
+			\else\begin{flushright}
+                            {Aachen, Datum}
+			    
+                        \end{flushright}
+			\fi
+\end{minipage}
+
+
+% Bottom of the page
+
+\end{center}
+
+\end{titlepage}
+
+%Layout CD aus
+\restoregeometry

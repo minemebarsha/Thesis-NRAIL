@@ -1,0 +1,105 @@
+%/////////////////////////////////////////////////
+%/
+\chapter{Conclusion and Future Work}
+%/
+%/////////////////////////////////////////////////
+\label{chap:conclusion_and_Future_Work}
+%/////////////////////////////////////////////////
+%/
+\section{Conclusion}
+%/
+%/////////////////////////////////////////////////
+\label{sec:Conclusion}
+%/////////////////////////////////////////////////
+%/
+\section{Future work}
+%/
+%/////////////////////////////////////////////////
+\label{sec:Future_Work}
+
+% !TEX root = ../../main.tex
+
+\input{content/pictures/tikz-macros.tex}
+
+\begin{tikzpicture}
+	\begin{axis}[
+			xlabel=\# solved problems,
+			ylabel=runtime (s),
+			ymode=log,
+			minor y tick num=1,
+			xmin=-200,
+			xmax=12000,
+			ymin=0,
+			ymax=1200,
+			xticklabel=$\pgfmathprintnumber{\tick}$k,
+			scaled ticks=false,
+			scaled x ticks=manual:{}{\pgfmathparse{#1/1000.0}},
+			xtick={0,2000,4000,6000,8000,10000,11447},
+			height=5.5cm,
+			width=0.9\linewidth,
+			legend pos = north west,
+			legend cell align = left,
+			ymajorgrids = true,
+	]
+
+	\addplot[thick, solid] table[x index=0,y index=1] {experiments/output/plot-z3.data};
+	\addlegendentry{z3}
+	\end{axis}
+\end{tikzpicture}
+
+
+\begin{tabularx}{\textwidth}{lr}
+	\toprule
+\textbf{property} & \textbf{solved} \\
+	\midrule
+	Overall & 10105 \\
+	In NLSAT & 8457 \\
+	At least one propagation & 8457 \\
+	At least one stage & 7749 \\
+	At least five propagations & 7664 \\
+	At least one conflict & 5323 \\
+	At least five stages & 3090 \\
+	At least one Boolean decision & 3016 \\
+	At least five conflicts & 2255 \\
+	At least five Boolean decision & 1870 \\
+	\bottomrule
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}{lXrrXrrXrr}
+	\toprule
+	\textbf{Solver}
+	&& \multicolumn{2}{c}{\textbf{SAT}}
+	&& \multicolumn{2}{c}{\textbf{UNSAT}}
+	&& \multicolumn{2}{c}{\textbf{overall}}
+	\\
+	\midrule
+	\bottomrule
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}{Sr}
+	\toprule
+	\textbf{timeout} & \textbf{solved} \\
+	\midrule
+	0.1 & 9115 \\
+	1 & 9543 \\
+	10 & 9824 \\
+	20 & 10054 \\
+	60 & 10070 \\
+	120 & 10076 \\
+	300 & 10087 \\
+	600 & 10093 \\
+	1200 & 10103 \\
+	\bottomrule
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}{lr}
+	\toprule
+\textbf{property} & \textbf{solved} \\
+	\midrule
+	Linear & 182 \\
+	Bitvectors & 39 \\
+	SAT solver & 212 \\
+	Combined & 213 \\
+	\bottomrule
+\end{tabularx}
+

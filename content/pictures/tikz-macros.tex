@@ -1,0 +1,70 @@
+% !TEX root = ../../main.tex
+
+\tikzpicturedependsonfile{content/pictures/tikz-macros.tex}
+
+% \tikzgrid{xmin}{xmax}{ymin}{ymax}
+\providecommand{\tikzgrid}[4]{
+	\draw[thin, color=black!30] ($(#1,#3) + (-0.1,-0.1)$) grid ($(#2,#4) + (0.1,0.1)$);
+}
+
+% \tikzxaxis{xmin}{xmax}{ypos}
+\providecommand{\tikzxaxis}[3]{
+	\draw[->, color=black!70] ($(#1,#3) + (-0.2,0)$) -- ($(#2,#3) + (0.2,0)$) node[right] {$x$};
+}
+% \tikzyaxis{ymin}{ymax}{xpos}
+\providecommand{\tikzyaxis}[3]{
+	\draw[->, color=black!70] ($(#3,#1) + (0,-0.2)$) -- ($(#3,#2) + (0,0.2)$) node[above] {$y$};
+}
+
+% \tikzaxis{xmin}{xmax}{ymin}{ymax}
+\providecommand{\tikzaxis}[4]{
+	\tikzxaxis{#1}{#2}{0}
+	\tikzyaxis{#3}{#4}{0}
+}
+
+\providecommand{\tikzplot}[4]{
+	\tikzgrid{#1}{#2}{#3}{#4}
+	\tikzaxis{#1}{#2}{#3}{#4}
+}
+
+\tikzset{
+	cross/.style={cross out, draw=black, minimum size=4pt, line width=1pt},
+	sample/.style={draw, fill, circle, minimum size=4pt, inner sep=0pt},
+	node/.style={draw, rectangle, rounded corners=3pt},
+}
+
+\providecommand{\scatterplot}[3]{
+	\begin{tikzpicture}
+		\begin{axis}[
+			ymax=70,
+			xmax=70,
+			width=\textwidth,
+			axis x line=bottom,
+			axis y line=left,
+			legend pos=south east,
+			xtick={0, 20, 40, 60},
+			xticklabels={0, 20, 40, 60},
+			xtick scale label code/.code={},
+			extra x ticks = {65, 70},
+			extra x tick labels = {M, T},
+			extra x tick style = { grid = major },
+			xticklabel style={font=\tiny},
+			x label style = {at={(axis description cs:0.5,-0.1)}, anchor=north},
+			ytick={0, 20, 40, 60},
+			yticklabels={0, 20, 40, 60},
+			ytick scale label code/.code={},
+			extra y ticks = {65,70},
+			extra y tick labels = {M, T},
+			extra y tick style = { grid = major },
+			yticklabel style={font=\tiny},
+			xlabel=runtime of #1 (s),
+			ylabel=runtime of #2 (s),
+			y label style = {at={(axis description cs:-0.25,0.5)}, anchor=north},
+			legend style={font=\scriptsize},
+			draw=none
+		]
+			\addplot[mark=*, mark size=0.5pt, only marks] table[x index=0,y index=1] {experiments/output/#3};
+			\addplot[no marks,forget plot, color=black!50] coordinates {(1,1) (65,65) };
+		\end{axis}
+	\end{tikzpicture}
+}

@@ -1,0 +1,7 @@
+\begin{abstract}
+Satisfiability Modulo Theories (SMT) solving checks the satisfiability of the first-order logic formulas with respect to some theories.
+In this thesis, we implement the method which was proposed by the authors of \cite{Cimatti:2018:ILS:3274693.3230639}. 
+The idea of the authors is to perform linear abstraction iteratively on non-linear formula by uninterpreted functions and if the solution set for the achieved linear formula does not satisfy the non-linear formula then this linear formula is incrementally refined by a set of axioms.
+This thesis implements this method with linear abstraction by variables instead of uninterpreted functions and some heuristics aspects in SMT-RAT.
+We also propose a new axiom namely Interval Constraint Propagation (ICP) axiom for refinement.
+\end{abstract} 
