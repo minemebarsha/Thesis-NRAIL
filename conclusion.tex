@@ -42,64 +42,9 @@
 			ymajorgrids = true,
 	]
 
-	\addplot[thick, solid] table[x index=0,y index=1] {experiments/output/plot-z3.data};
-	\addlegendentry{z3}
+	\addplot[color=red, solid] table[x index=0,y index=1] {experiments/output/plot-z3.data};
+	\addplot[color=blue, solid] table[x index=0,y index=1] {experiments/output/plot-smtrat_1.data};
+	\addplot[color=green, solid] table[x index=0,y index=1] {experiments/output/plot-mathsat.data};
+    \legend{z3, smtrat1, matsat}
 	\end{axis}
 \end{tikzpicture}
-
-
-\begin{tabularx}{\textwidth}{lr}
-	\toprule
-\textbf{property} & \textbf{solved} \\
-	\midrule
-	Overall & 10105 \\
-	In NLSAT & 8457 \\
-	At least one propagation & 8457 \\
-	At least one stage & 7749 \\
-	At least five propagations & 7664 \\
-	At least one conflict & 5323 \\
-	At least five stages & 3090 \\
-	At least one Boolean decision & 3016 \\
-	At least five conflicts & 2255 \\
-	At least five Boolean decision & 1870 \\
-	\bottomrule
-\end{tabularx}
-
-\begin{tabularx}{\textwidth}{lXrrXrrXrr}
-	\toprule
-	\textbf{Solver}
-	&& \multicolumn{2}{c}{\textbf{SAT}}
-	&& \multicolumn{2}{c}{\textbf{UNSAT}}
-	&& \multicolumn{2}{c}{\textbf{overall}}
-	\\
-	\midrule
-	\bottomrule
-\end{tabularx}
-
-\begin{tabularx}{\textwidth}{Sr}
-	\toprule
-	\textbf{timeout} & \textbf{solved} \\
-	\midrule
-	0.1 & 9115 \\
-	1 & 9543 \\
-	10 & 9824 \\
-	20 & 10054 \\
-	60 & 10070 \\
-	120 & 10076 \\
-	300 & 10087 \\
-	600 & 10093 \\
-	1200 & 10103 \\
-	\bottomrule
-\end{tabularx}
-
-\begin{tabularx}{\textwidth}{lr}
-	\toprule
-\textbf{property} & \textbf{solved} \\
-	\midrule
-	Linear & 182 \\
-	Bitvectors & 39 \\
-	SAT solver & 212 \\
-	Combined & 213 \\
-	\bottomrule
-\end{tabularx}
-

@@ -215,6 +215,7 @@ This \textit{absoluteValuedModel} is passed as the third parameter of the functi
 The function \textit{createMonotonicity} creates Monotonicity axiom formulas as shown in Figure \ref{fig:List_Of_Axioms_For_Refining_Multiplication} for a pair of multiplication terms and checks if these are unsatisfied by \textit{absoluteValuedModel}.
 If unsatisfied formulas are found then their equivalent formulas are generated and accumulated into the \textit{List} \textit{monotonicityFormulas}.
 Once all unsatisfied formulas are collected for that pair of multiplication terms, the function \textit{createMonotonicity} returns \textit{monotonicityFormulas} to its caller method.
+
 %/////////////////////////////////////////////////
 %/
 \subsubsection{Module Settings}
@@ -258,6 +259,6 @@ struct NRAILSettings1
 \end{lstlisting}
 \end{figure}
 
-\noindent As we have 21 diffrent settings, we have also created 21 different strategies namely \textit{NRARefinementSolver$1$}, \textit{NRARefinementSolver$2$}, $\dots$, \textit{NRARefinementSolver$21$} with \textit{NRAILSettings$1$}, \textit{NRAILSettings$2$}, $\dots$, \textit{NRAILSettings$21$}, respectively.
+\noindent As we have 21 different settings, we have also created 21 different strategies namely \textit{NRARefinementSolver$1$}, \textit{NRARefinementSolver$2$}, $\dots$, \textit{NRARefinementSolver$21$} with \textit{NRAILSettings$1$}, \textit{NRAILSettings$2$}, $\dots$, \textit{NRAILSettings$21$}, respectively.
 Each of them are copies of \textit{NRARefinementSolver} shown in Figure \ref{fig:overview_architecture_SMT-RAT} but with corresponding settings as module parameter.
 The strategy \textit{NRARefinementSolver} has the default settings.\newline
