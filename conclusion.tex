@@ -21,30 +21,4 @@
 
 \input{content/pictures/tikz-macros.tex}
 
-\begin{tikzpicture}
-	\begin{axis}[
-			xlabel=\# solved problems,
-			ylabel=runtime (s),
-			ymode=log,
-			minor y tick num=1,
-			xmin=-200,
-			xmax=12000,
-			ymin=0,
-			ymax=1200,
-			xticklabel=$\pgfmathprintnumber{\tick}$k,
-			scaled ticks=false,
-			scaled x ticks=manual:{}{\pgfmathparse{#1/1000.0}},
-			xtick={0,2000,4000,6000,8000,10000,11447},
-			height=5.5cm,
-			width=0.9\linewidth,
-			legend pos = north west,
-			legend cell align = left,
-			ymajorgrids = true,
-	]
 
-	\addplot[color=red, solid] table[x index=0,y index=1] {experiments/output/plot-z3.data};
-	\addplot[color=blue, solid] table[x index=0,y index=1] {experiments/output/plot-smtrat_1.data};
-	\addplot[color=green, solid] table[x index=0,y index=1] {experiments/output/plot-mathsat.data};
-    \legend{z3, smtrat1, matsat}
-	\end{axis}
-\end{tikzpicture}
