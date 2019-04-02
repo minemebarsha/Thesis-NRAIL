@@ -79,7 +79,7 @@ This loop continues unless the SMT solver finds UNSAT or UNKNOWN for $\hat{\varp
 %/////////////////////////////////////////////////
 \label{sec:Our_Approach}
 We have constructed an SMT-RAT module named \textit{NRAILModule} that linearizes an input NRA formula incrementally, solves it and utilizes the solution if the input NRA formula is not satisfied by it to make it satisfying via a refinement process.
-SMT-RAT is an open source C++ toolbox for strategic and parallel SMT solving consisting of a collection of modules for solving quantifier-free (non)linear real and integer arithmetic formulas \cite{wiki:smt-rat}.\newline
+SMT-RAT is an open source C++ toolbox for strategic and parallel SMT solving consisting of a collection of modules for solving quantifier-free (non)linear real and integer arithmetic formulas \cite{inproceedings}.\newline
 
 \noindent Each of the modules of SMT-RAT implements a common interface.
 The interface consists of some methods including addCore, checkCore. 
@@ -712,14 +712,14 @@ Similarly, we can do it for $a$ which is the second case in the following (Figur
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=0.25\linewidth]{./figures/FullLazySMT.pdf}
-  \caption{Full lazy SMT solver \cite{lec:satchecking5a}}
+  \caption{Full lazy SMT solver}
   \label{fig:FixAModifyB}
 \end{figure}
 
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=0.25\linewidth]{./figures/FullLazySMT.pdf}
-  \caption{Full lazy SMT solver \cite{lec:satchecking5a}}
+  \caption{Full lazy SMT solver}
   \label{fig:FixBModifyA}
 \end{figure}
 

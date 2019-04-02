@@ -10,15 +10,49 @@
 %/
 %/////////////////////////////////////////////////
 \label{sec:Conclusion}
-%/////////////////////////////////////////////////
-%/
+This thesis work focuses on how we can decide the satisfiability of logical formulas.
+Solving NRA formula is very expensive compared to LRA formula.
+For the ease of solving NRA formula, we decide to perform abstraction for NRA formula.
+This thesis work is motivated by the PhD thesis \cite{Cimatti:2018:ILS:3274693.3230639} and the idea is to create a LRA formula for the input NRA formula by abstracting multiplication terms iteratively.
+If the LRA model does not satisfy the NRA formula then refinement is performed over a set of axioms to remove the spurious assignments until we get SAT or UNSAT or UNKNOWN.
+Moreover, we have introduced three types of heuristics with different sequences of axioms for collecting unsatisfiable formulas which are added to LRA formula.
+We have also introduced ICP axioms for refinement which is one of the future work of \cite{Cimatti:2018:ILS:3274693.3230639}.\newline
+
+\noindent We have intregated this method as a module in SMT-RAT.
+We have evaluated the performance of the module in Chapter \ref{chap:experimental_result}.
+We have seen that the module can solve $53\%$ instances in total.
+For now, the percentage is satisfactory as this module is a prototype and there are scopes available to improve the module which are mentioned in the following section.
+We are unable to implement these as we have time limitations.
+We are expecting a significant enhancement of the performance once the mentioned future works will be integrating with the module.
+
 \section{Future work}
 %/
 %/////////////////////////////////////////////////
 \label{sec:Future_Work}
-
-% !TEX root = ../../main.tex
-
-\input{content/pictures/tikz-macros.tex}
-
+For the time limitation, we could not complete some essential tasks which are needed to make the solver more stable.  
+In the future, we need more time to invest in the following areas:
+\begin{itemize}
+    \item We have already several axioms, but there are still further possibilities to add axioms.
+    Currently, we can exclude only boxes by ICP.
+    However, it is also possible to exclude convexes of different shapes based on templates.
+    That means we can try other forms of areas which we want to exclude and then derive axioms for them.
+    \item So far, we have assigned the values of original variables by guessing if the linearized model $\hat{\mu}$ does not have solutions for all original variables which may results in UNSAT for satisfiable benchmarks.
+    So, it is very essential to generate solutions of original variables as well as other variables.
+    For example, consider the following formula:
+    $$\varphi := x^4y^2 - y > 5$$
+   The monomial $x^4y^2$ is linearized as follows and we get the linearized formula $\hat{\varphi} := z_4 -y > 5$:
+    $$\underbrace{ \underbrace{ \underbrace{ x \ast x }\limits_{z_{1}} \ast \underbrace{ x \ast x }\limits_{z_{1}}}\limits_{z_{2}} \ast \underbrace{ y \ast y }\limits_{z_{3}}}\limits_{z_{4}}$$
+    Now, $\hat{\varphi}$ is passed to the SMT LRA solver and the solver outputs SAT with linearized model $\hat{\mu} := \{z_4 = 16, y = 1.414\}$.
+    Notice that $\hat{\varphi}$ does not cover all original variables. 
+    Currently, we extend $\hat{\mu}$ by guessing zero for $x$ as well as other variables $z_1, z_2$ and $z_3$ which will surely lead us to refinement process.
+    Hence, instead of assuming values we can find out the solutions for these variables based on $\hat{\mu}$ (if available):
+    \begin{itemize} 
+        \item  $z_4 = z_2 \ast z_3 = z_2 \ast y \ast y$.
+        So, $z_2 = 4$.
+        \item $z_1 = 2$ as $z_2 = z_1^2$.
+        \item Finally, $x = 4$.
+     \end{itemize}
+     In the future, we will integrate this feature to our solver which will resist going through the refinement process unnecessarily for satisfiable benchmarks.
+     Most importantly this feature will enhance the solver's performance by solving more satisfiable instances.
+\end{itemize}
 

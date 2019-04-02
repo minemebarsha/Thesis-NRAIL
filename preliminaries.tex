@@ -105,7 +105,7 @@ Here $c$ is a constraint.\newline
 \label{def:Theory}
     (Theory).
     A theory $T$ is a set of sentences and the sentences are the formulas with non-logical symbols and no free variables defined in the following.
-    A formula $\varphi$ is $T$-satisfiable if there exists a model that satisfies both the sentences of $T$ and $\varphi$ \cite{TSat}.
+    TSat \cite{TSat}.
 \end{definition}
 
 \begin{definition}
@@ -236,7 +236,7 @@ It is called satisfiability because it has a SAT solver component and modulo the
 \noindent The satisfiability checking problem is the problem of determining whether a given \hyperref[sec:PropositionalLogic]{propositional logic formula} is satisfiable.
 One of the most successful technologies for this test is SAT solving.
 A SAT solver solves the satisfiability checking problem by implementing a decision procedure.
-The Davis–Putnam–Logemann–Lovel and (DPLL) algorithm is the basis for most modern SAT solvers \cite{wiki:DPLL_algorithm}.
+The Davis–Putnam–Logemann–Lovel and (DPLL) algorithm is the basis for most modern SAT solvers \cite{Biere:2009:HSV:1550723}.
 The input formula of it is expected to be in conjunctive normal form (CNF) defined in the following.
 It is not possible to explain SAT solver shortly.
 A propositional logic formula is said to be satisfiable if the SAT solver finds a model that makes the formula $\mathbf{true}$, otherwise unsatisfiable.\newline
@@ -255,7 +255,7 @@ Here $C_{i}$ is the $i^{\text th}$ clause and $n$ is total the number of clauses
 \end{example}
 \end{definition}
 
-\noindent A theory solver for a theory $T$ takes as input a set (interpreted as an implicit conjunction) $\varphi$ of literals and determines whether $\varphi$ is $T$-satisfiable \cite{TSNYU}.\newline
+\noindent A theory solver for a theory $T$ takes as input a set (interpreted as an implicit conjunction) $\varphi$ of literals and determines whether $\varphi$ is $T$-satisfiable \cite{barrett2018satisfiability}.\newline
 
 \noindent Figure \ref{fig:FullLazySMT} is the big picture of an SMT solver.
 The SAT solver searches for a satisfying solution for the boolean skeleton of the problem.
@@ -263,13 +263,13 @@ That means, it does not look into the theory, it checks the abstraction of the f
 In order to be complete, the SAT solver communicates with the theory solver which extends the logical search by checking theory constraints.
 The communication is in two direction.
 First, the SAT solver sends a request to the theory solver and the theory solver gives some feedback about the result to the SAT solver.
-If we have a certain logic which we want to solve, for example, LRA, we have a SAT solver to h andle the boolean structure of the LRA formula and we also have a simplex solver as theory solver to check conjunctions of LRA constraints.
-Simplex is a method to solve the LRA formulas.
+If we have a certain logic which we want to solve, for example, LRA, we have a SAT solver to handle the boolean structure of the LRA formula and we also have a simplex solver as theory solver to check conjunctions of LRA constraints.
+Simplex is a method to solve the LRA formulas as presented in \cite{10.1007/11817963_11}.
 
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=1\linewidth]{./figures/FullLazySMT.pdf}
-  \caption{Full lazy SMT solver \cite{lec:satchecking5a}}
+  \caption{Full lazy SMT solver \cite{brahm2010ALS}}
   \label{fig:FullLazySMT}
 \end{figure}
 %/////////////////////////////////////////////////
@@ -282,13 +282,12 @@ NRA formula is hard to solve and the applicability is restricted in practice bec
 That is why we perform linearization for NRA formula.\newline
 
 \noindent Our thesis work is inspired by the thesis work, "Incremental Linearization for Satisfiability and Verification Modulo Nonlinear Arithmetic and Transcendental Functions" \cite{Cimatti:2018:ILS:3274693.3230639}.
-The authors of \cite{Cimatti:2018:ILS:3274693.3230639} deal with the problems of SMT and Verification Modulo Theories (VMT), exposes the reachability of first-order
-modeling provided by SMT solver, over  quantifier-free NRA and quantifier-free NRA augmented with  transcendental functions (NTA) \cite{abdulla2013reachability}.
+The authors of \cite{Cimatti:2018:ILS:3274693.3230639} deal with the problems of SMT and Verification Modulo Theories (VMT), exposes the reachability of first-order modeling provided by SMT solver, over  quantifier-free NRA and quantifier-free NRA augmented with  transcendental functions (NTA) \cite{abdulla2013reachability}.
 Transcendental functions include the exponential function, the logarithm and the trigonometric functions.\newline
 
 \noindent The main idea of \cite{Cimatti:2018:ILS:3274693.3230639} is to abstract non-linear multiplication and transcendental functions as uninterpreted functions (UFs) as described in Section \ref{subsec:IL_For_SMT} below.
-This abstraction is performed iteratively over an abstract domain containing LRA and UF.
-The UFs are used to model non-linear and transcendental functions that are iteratively and incrementally axiomatized with a lemma-on-demand approach \cite{Cimatti:2018:ILS:3274693.3230639}.
+This abstraction is performed iteratively over an abstract domain containing LRA and uninterpreted funtion.
+The uninterpreted funtions are used to model non-linear and transcendental functions that are iteratively and incrementally axiomatized with a lemma-on-demand approach \cite{Cimatti:2018:ILS:3274693.3230639}.
 In other word, a refinement of the abstraction is performed and spurious interpretations are eliminated to be closer to satisfying solutions of the formula.
 The authors named this abstraction-refinement approach as Incremental Linearization (IL).\newline
 
@@ -301,7 +300,7 @@ The authors named this abstraction-refinement approach as Incremental Linearizat
 Detection of spurious models helps to tighten the abstraction.
 After detecting the spurious models, for each abstraction-refinement loop, some linear constraints are added to the input formula loop to tighten the abstraction.
 The linear constraints include tangent planes resulting from differential calculus and monotonicity constraints \cite{Cimatti:2018:ILS:3274693.3230639}.
-On the other h and, each transcendental function is abstracted as unary uninterpreted function.
+On the other hand, each transcendental function is abstracted as unary uninterpreted function.
 Taylor series is used to compute the coefficients.
 When spurious models are found, the  piecewise-linear axioms are instantiated with upper- and lower-bound.
 For transcendental functions the abstraction refinement is based on the addition.\newline
@@ -323,7 +322,7 @@ The authors have proposed the Algorithm \ref{alg:IL_For_SMT} for SMT solving on 
 
 \noindent The input is an NRA formula $\varphi$.
 The algorithm returns a boolean value if $\varphi$ is detected to be satisfiable or unsatisfiable.
-If $\varphi$ is unsatisfiable, it also returns the set of constraints $\Gamma$, a combination of UF and LRA (UFLRA).
+If $\varphi$ is unsatisfiable, it also returns the set of constraints $\Gamma$, a combination of uninterpreted funtion and LRA (uninterpreted funtionLRA).
 But if $\varphi$ is satisfiable, it returns the empty set $\emptyset$.\newline
 
 \begin{algorithm}
@@ -350,7 +349,7 @@ SMT-NRA-CHECK($\varphi$)
 This preprocessing step generates  a formula $\varphi^{\prime} = \varphi \wedge \varphi_{shift}$ where $\varphi_{shift}$ defines the values of some fresh real variables $w_{x}$ in terms of some variables $x$ in $\varphi$.
 Then in line $2$, the method SMT-INITIAL-ABSTRACTION performs the abstraction of the formula $\varphi^{\prime}$ and then returned an abstracted formula that is assigned to $\hat{\varphi}$.
 The abstraction means recursively replacing each non-linear term e.g., $x \ast y$ by an uninterpreted function application $f_{\ast}(x, y)$.
-So, authors have only used UF for abstraction.
+So, authors have only used uninterpreted funtion for abstraction.
 No abstraction is performed for linear multiplications e.g., $c \ast x$ where $c$ is a constant, hence all the linear multiplications of $\varphi^{\prime}$ remain unchanged.\newline
 
 \noindent The set of constraints $\Gamma$ is initialized to the empty set $\emptyset$.
@@ -426,7 +425,7 @@ Moreover, Tangent-plane constraints refer to a single multiplication term and a 
 Notice that, Tangent-plane constraints have equality constraints and inequality constraints.
 The equality constraints enforce the correct value of  $f_{\ast}(x, y)$ at $x = a$ or $y = b$ and provide multiplication lines.
 On the other h and, the inequality constraints provide bound for $f_{\ast}(x, y)$ while $x$ and $y$ are not on multiplication lines.
-Figures \ref{fig:Tangent_Plane_Graph}a and \ref{fig:Tangent_Plane_Graph}b illustrate the surface of the UF $f_{\ast}(x, y) = x \ast y$ and the top view of the surface respectively.
+Figures \ref{fig:Tangent_Plane_Graph}a and \ref{fig:Tangent_Plane_Graph}b illustrate the surface of the uninterpreted funtion $f_{\ast}(x, y) = x \ast y$ and the top view of the surface respectively.
 This kind of surface is known in geometry as hyperbolic paraboloid.\newline
 
 \begin{definition}

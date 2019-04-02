@@ -54,9 +54,9 @@ Note that, a module can never know which module is its successor or ancestor mod
 The class \textit{NRARefinmentSolver} is a strategy where the order of the Modules are declared hierarchically.
 The order of the modules of \textit{NRARefinmentSolver} is shown in the figure \ref{fig:overview_architecture_SMT-RAT}.
 The first module of this strategy is \textit{NRAILModule} which implements incremental linearization for real arithmetic described in Chapter \ref{chap:Incremental_Linearization_For_Real_Arithmetic}.
-The next module \textit{SATModule} creates a boolean skeleton of a formula and solves the resulting formula with \textit{minisat}, where after each completed decision level the constraints belonging to the assigned boolean variables are checked for consistency by the backend \textit{LRAModule} of this module \cite{manual:smt-rat}.
+The next module \textit{SATModule} creates a boolean skeleton of a formula and solves the resulting formula with \textit{minisat}, where after each completed decision level the constraints belonging to the assigned boolean variables are checked for consistency by the backend \textit{LRAModule} of this module \cite{inproceedings}.
 If \textit{SATModule} finds inconsistency then \textit{LRAModule} provides unsatisfiable core which is abstracted and participated in search for a satisfying solution.
-The last module of our strategy is \textit{LRAModule} that implements SMT compliant \textit{Simplex} method which a method for solving LRA formulas \cite{manual:smt-rat}.
+The last module of our strategy is \textit{LRAModule} that implements SMT compliant \textit{Simplex} method which a method for solving LRA formulas \cite{inproceedings}.
 In the following sub sections, we will explain the significant implementation details of module \textit{NRAILModule}.
 \end{sloppypar}
 

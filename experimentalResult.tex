@@ -225,7 +225,7 @@ So, smtrat4 performs much better for unsatisfiable benchmarks than satisfiable b
 For satisfiable benchmarks, the performance of smtrat4 is also very unsatisfactory compared to mathsat.
 Our solver outputs only UNSAT by the SMT solver and SAT by checking if input NRA formula $\varphi$ is satisfied by the estimated model $\mu$ (Figure \ref{fig:system_architecture_ours}).
 Remember that this $\mu$ was being created by guessing the value of original variables (containing in $\varphi$) zero if and only if the solution to the linearization problem does not provide assignments to all original variables.
-Hence, it is evident that $\mu$ does not contain the actual solution for most of the satisfiable benchmarks and as a result of wrong guessing, smtrat4 results in less satisfiable instances.
+Hence, it is evident that $\mu$ does not contain the solutions for most of the satisfiable benchmarks and as a result of wrong guessing, smtrat4 results in less satisfiable instances.
 We may reach the solutions for satisfiable benchmarks after some loops which can cause a timeout.
 So, this delay is also a reason for getting lots of timeouts.
 On the contrary, mathsat finds out the actual solutions for satisfiable benchmarks and solves a satisfactory number of satisfiable instances.
