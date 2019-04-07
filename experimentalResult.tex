@@ -11,7 +11,7 @@
 %/
 %/////////////////////////////////////////////////
 We evaluate our implementation by running some benchmarks over different strategies as well as solvers.
-We have used QF\_NRA benchmarks from SMT-LIB.
+We have used QF\_NRA benchmarks \cite{SMTLIB-benchmarks} from SMT-LIB \cite{BarFT-SMTLIB}.
 We run the benchmarks on a cluster having multiple processors of 2.10 GHz Intel Xeon Platinum 8160 and 8GB of memory per process.
 We decided to use a timeout of 120 seconds (s) per problem instance for the experiment.
 
@@ -214,14 +214,14 @@ Therefore, we decide to consider smtrat4  for further evaluation which follows h
 \end{table}
 
 \noindent Table \ref{table:smtrat4_vs_mathsatAndZ3} has the same structure as Table \ref{table:results_our_solvers}.
-Here we compare smtrat4 with other two SMT solvers z3 and mathsat.
+Here we compare smtrat4 with other two SMT solvers z3 \cite{10.1007/978-3-540-78800-3_24} and mathsat \cite{ 10.1007/978-3-642-36742-7_7}.
 We have taken two versions of smtrat4 which are without preprocessing (WoP) and with preprocessing (WP).
 In order to compare the heuristics without external influence of other modules, we switched off preprocessing.
 Smtrat4 WoP and WP both get the same original inputs but switching on preprocessing help.
 So, for compatibilty we add also a version WP.
 It is clearly visible that z3 and mathsat have excellent performance than smtrat4 in all cases.
 The SMT solver z3 implements expensive and complete techniques based on variants of cylindrical algebraic decomposition \cite{Cimatti:2018:ILS:3274693.3230639}.
-The SMT solver mathsat implements the incremental approach as described in \cite{Cimatti:2018:ILS:3274693.3230639} which was a PhD thesis and we have implemented the same approach in our thesis but our implementation is rather prototypical.
+The SMT solver mathsat implements the incremental approach as described in \cite{irfan2018incremental} which was a PhD thesis and we have implemented the same approach in our thesis but our implementation is rather prototypical.
 So, we are interested to compare smtrat4 with mathsat as both implements the same approach.\newline
 
 \noindent The solver smtrat4 WP solves above 2.3K satisfiable and 4.3K unsatisfiable instances but smtrat4 WoP solves below 2K satisfiable and 4K unsatisfiable instances.
@@ -274,9 +274,22 @@ However, the tendency can be observed the same in the SAT case and z3 which was 
 \end{tabularx}
     \label{table:smtrat4_vs_mathsatAndZ3}
 \end{table}
-% Thesis8:here in order to compare the heuristics without or with as less external influence from other modules as possible we switched off preprocessing, so they really get the same original inputs but switching on preprocessing it helps, so here for comparability we add also a version with preprocessing, basically we implemented the mathsat approach that was a thesis and our implementation is rather prototypical, the repairing of existing solution for the linear case (differences->, of course, we have another solver, we extend it only but the repair we did not implement, they also tried to repair which might help, we refine it differently with different heuristics but  the tendency can be observed the same so of course in the sat case it is likely mathsat less where in the normal approach was z3 seems to be incomparable and also that  )\newline
 
-\begin{figure}
+\noindent Figure \ref{fig:Survival_plots_smtrat4} illustrates the survival plots which compares two versions of smtrat4, mathsat and z3.
+The x-axis shows the number of instances solved within the corresponding time and the y-axis shows the runtime in second.
+The survival plots behave exponentially.
+The solver smtrat4 WoP solves the least number of instances and z3 solves the highest number of instances within the time limit.
+However, smtrat WP and mathsat solves approximately $6.7$K and $8.9$K instances in total.
+Initially, both of the smtrat4 solvers start solving instances earlier than z3 followed by mathsat.
+The performance of smtrat4 decreases later.\newline
+
+\noindent There are two scatter plots in Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_mathsat} and \ref{fig:Scatter_plot_for_smtrat4_WP_and_z3}.
+We have generated these scatter plots to compare pairwise solvers on individual benchmark instances.
+Each point $(x, y)$ in a scatter represents a benchmark instance which was solved by a solver in time $x$ and another solver in time $y$.
+Points on the inner edges labeled by T indicate timeouts, whereas on the outer edges labeled by M indicate memory outs.
+We have choosen smtrat by switching on preprocessing to draw the scatter plots because this solver performs better than switching off preprocessing.\newline
+
+\begin{figure}[!ht]
 \caption{Survival plots for smtrat4 WoP, smtrat WP, mathsat and z3} 
 \begin{tikzpicture}
 	\begin{axis}[
@@ -299,11 +312,10 @@ However, the tendency can be observed the same in the SAT case and z3 which was 
 			ymajorgrids = true,
 	]
 
-	\addplot[color=red, solid] table[x index=0,y index=1] {experiments/output/plot-z3.data};
-	
 	\addplot[color=blue, solid] table[x index=0,y index=1] {experiments/output/plot-smtrat_4.data};
 	\addplot[color=black, solid] table[x index=0,y index=1] {experiments/output/plot-smtrat_4_preprocessing.data};
 	\addplot[color=green, solid] table[x index=0,y index=1] {experiments/output/plot-mathsat.data};
+	\addplot[color=red, solid] table[x index=0,y index=1] {experiments/output/plot-z3.data};
 % 	\addplot[color=black, solid] table[x index=0,y index=1] {experiments/output/plot-smtrat_24.data};
 %     \legend{z3, matsat, smtrat4, smtrat24}
     \legend{smtrat4 WoP, smtrat4 WP, mathsat, z3}
@@ -312,19 +324,42 @@ However, the tendency can be observed the same in the SAT case and z3 which was 
 \label{fig:Survival_plots_smtrat4} 
 \end{figure}
 
-\noindent Figure \ref{fig:Survival_plots_smtrat4} illustrates the survival plots for z3, mathsat and smtrat4.
-The x-axis shows the number of instances solved within the corresponding time and the x-axis shows the solving time in second.
-The survival plots behave exponentially.
-The solver smtrat4 and mathsat solve almost $6$K and $9$K instances in total.
-However, z3 solves above $10$K in total.
-Initially, smtrat4 starts solving instances earlier than z3 followed by mathsat.
-The performance of smtrat4 decreases later due to wrong assumption about which is argued above.\newline
+\noindent Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_mathsat} shows the scatter plot for smtrat WP with mathsat.
+We can see a thick cloud at (0, 0) which means that smtrat4 WP and mathsat solve many instances quickly.
+Then a thinner cloud extends linearly titled to the bottom specially near the x-axis.
+So, mathsat is faster than smtrat4 WP for most of the instances.
+There is also a branch near the y-axis, thus smtrat4 WP is also faster than mathsat for some instances.
+In addition, the dots on the edge T parallel to y-axis implies the instances which was solved by mathsat but smtrta4 WP was unable to solve those.
+Similarly, the dots on the edge T parallel to x-axis implies the opposite phenomena though the dots are in less number compared to the edge T parallel to y-axis.
+We can see a different behaviour in Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_z3} which is the scatter plot for smtrat4 WP and z3.
+Here the cloud is distributed.
+There is a cloud splits with one branch near the x-axis and another branch near the y-axis.
+There are also some dots that are a bit tilted to the top or the bottom of the linear line.
+It means that both solvers behave similarly for these instances.
+The solver z3 could also solve huge number of instances for which smtrat4 WP results in timeouts.
+\newline
+
+\begin{figure}[!ht]
+    \centering
+    \caption{Scatter plot for smtrat4 WP and mathsat}
+    \includegraphics[width=1\linewidth]{./figures/scatter-smtrat_4_preprocessing-mathsat.pdf}
+    % \scatterplot{smtrat4 WP}{mathsat}{scatter-smtrat_4_preprocessing-mathsat.data}
+  \label{fig:Scatter_plot_for_smtrat4_WP_and_mathsat}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \caption{Scatter plot for smtrat4 WP and z3}
+    \includegraphics[width=1\linewidth]{./figures/scatter-smtrat_4_preprocessing-z3.pdf}
+    % \scatterplot{smtrat4 WP}{z3}{scatter-smtrat_4_preprocessing-z3.data}
+    \label{fig:Scatter_plot_for_smtrat4_WP_and_z3}
+\end{figure}
 
 \noindent We already know that we have defined three heuristic types and seven sequences of axiom types.
-It is argued above that the a pair of heuristic type ALL and sequence $4$ can enhance the performance of a solver.
+We have also seen that the a pair of heuristic type ALL and sequence $4$ can enhance the performance of a solver.
 In other words, ICP has an influence on the enhancement of the performance.
 That is why we think about to play around with the sequence by concentrating on ICP the highest.
-So, for experimental purpose we create four additional SMT-RAT solvers (smtrat22, $\dots$, smtrat25) with the following sequences of axiom types but with the same heuristic type ALL:
+So, for experimental purpose we create four additional SMT-RAT solvers (smtrat22, $\dots$, smtrat25) by switching on preprocessing with the following sequences of axiom types but with the same heuristic type ALL:
 
 \begin{itemize}
     \item smtrat22 -> ICP, zero, tangent plane, congruence
@@ -333,8 +368,8 @@ So, for experimental purpose we create four additional SMT-RAT solvers (smtrat22
     \item smtrat25 -> ICP, tangent plane, ICP, zero, ICP, congruence
 \end{itemize}
 
-\begin{table}[h]
-\caption{Summary of smrat4 and other additional smtrat solvers}
+\begin{table}[!ht]
+\caption{Summary of smrat4, other additional smtrat solvers, mathsat and z3}
 \begin{tabularx}{\textwidth}{lXrrXrrXrr}
 	\toprule
 	\textbf{Solver}
@@ -368,30 +403,40 @@ So, for experimental purpose we create four additional SMT-RAT solvers (smtrat22
 % 	&& 4100 & 1.57~s
 % 	&& 6103 & 53.1~\%
 % 	\\
-	smtrat4 (WP)
+	smtrat4 WP
 	&& 2336 & 1.55~s
 	&& 4348 & 2.41~s
 	&& 6684 & 58.2~\%
 	\\
-	smtrat23 (WP)
+	smtrat23 WP
 	&& 2438 & 0.61~s
 	&& 4449 & 2.31~s
 	&& 6887 & 59.9~\%
 	\\
-	smtrat25 (WP)
+	smtrat25 WP
 	&& 2401 & 0.87~s
 	&& 4490 & 2.50~s
 	&& 6891 & 60.0~\%
 	\\
-	smtrat22 (WP)
+	smtrat22 WP
 	&& 2465 & 0.63~s
 	&& 4443 & 2.39~s
 	&& 6908 & 60.1~\%
 	\\
-	smtrat24 (WP)
+	smtrat24 WP
 	&& 2463 & 0.92~s
 	&& 4463 & 2.40~s
 	&& 6926 & 60.3~\%
+	\\
+	mathsat
+    	&& 3560 & 1.20~s
+     	&& 5286 & 1.80~s
+     	&& 8846 & 76.9~\%
+	\\
+	z3
+	&& 4985 & 0.36~s
+	&& 5091 & 0.78~s
+	&& 10076 & 87.7~\%
 	\\
 	\bottomrule
 \end{tabularx}
@@ -399,14 +444,27 @@ So, for experimental purpose we create four additional SMT-RAT solvers (smtrat22
 \end{table}
 
 \noindent We exclude the axiom type monotonicity from the sequence for each of these solvers as monotonicity is the most costly to generate.
-The results are reported in Table \ref{table:Summary_of_smrat4_and_other_additional_smtrat_solvers} which maintains the same structure as other tables.
-It is highly visible that the total number of solved instances has increased by $3\%$.
-The solver smtrat24 solves more than $2$K satisfiable and $4$K unsatisfiable instances  which are less than $2$K and $4$K, respectively for smtrat4.
-Notice that smtrat24 follows almost the pattern of the sequence $4$ except that ICP is inserted after each different axiom type in its sequence.
-The average time for solving satisfiable and unsatisfiable instances are also impressive.
-\newline
+The results are reported in Table \ref{table:Summary_of_smrat4_and_other_additional_smtrat_solvers} which maintains the same structure as Tables \ref{table:results_our_solvers} and \ref{table:smtrat4_vs_mathsatAndZ3}.
+It is highly visible that the total number of solved instances has increased the most for smtrat24 WP than smtrat4 WP and the increment is $3\%$.
+As a result, the difference of overall performances between our solver and mathsat has decreased from $19\%$ to $17\%$.
+Notice that smtrat24 follows almost the same pattern of the sequence $4$ except that ICP is inserted after each different axiom type in its sequence.
+Figures \ref{fig:Scatter_plot_for_smtrat24_WP_and_mathsat} and \ref{fig:Scatter_plot_for_smtrat24_WP_and_z3} are the scatter plots for smtrat24 WP with mathsat and z3, respectively.
+These two scatter plots have the same behaviour as like the scatter plots for smtrat4 WP with mathsat (Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_mathsat}) and z3 (Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_z3}), respectively.s\newline
 
-% \input{content/pictures/tikz-macros}
+\begin{figure}[]
+    \centering
+    \caption{Scatter plot for smtrat24 WP and mathsat}
+    \includegraphics[width=1\linewidth]{./figures/scatter-smtrat_24_preprocessing-mathsat.pdf}
+    % \scatterplot{smtrat4 WP}{mathsat}{scatter-smtrat_24_preprocessing-mathsat.data}
+  \label{fig:Scatter_plot_for_smtrat24_WP_and_mathsat}
+\end{figure}
 
-% \scatterplot{\SolverCADPPRR}{\SolverCADPPVE}{scatter-z3-matsat.data}
+\begin{figure}[]
+    \centering
+    \caption{Scatter plot for smtrat24 WP and z3}
+    \includegraphics[width=1\linewidth]{./figures/scatter-smtrat_24_preprocessing-z3.pdf}
+    % \scatterplot{smtrat4 WP}{z3}{scatter-smtrat_24_preprocessing-z3.data}
+    \label{fig:Scatter_plot_for_smtrat24_WP_and_z3}
+\end{figure}
+
 

@@ -148,7 +148,7 @@ If $t$ is a constant or linear (line $5$), then it is added as a linear term to 
 If the condition of the if block is false meaning that $t$ is non-linear, then the else block applies (lines $8$ to $12$).\newline
 
 \begin{algorithm}
-\caption{The alogithm linearization} 
+\caption{The algorithm linearization} 
 \label{alg:linearization}
 linearization($\varphi^\prime$)
 \begin{algorithmic}[1]
@@ -233,7 +233,7 @@ Encapsulating $m$ incrementally by Z-variables is the core of whole linearizatio
 In this section, we are going to see the algorithm behind this abstraction of $m$.\newline
 
 \begin{algorithm}
-\caption{The alogithm abstractMonomial} 
+\caption{The algorithm abstractMonomial} 
 \label{alg:abstractMonomial}
 abstractMonomial($m$)
 \begin{algorithmic}[1]
@@ -252,7 +252,7 @@ This replacement continues until in the input monomial $m = x_{1}^{d_{1}}, \dots
 Finally, the product of these abstraction variables and all $x_i$ with $d_i = 1$ is abstracted and returned to the caller method linearization($\varphi^\prime$) (see Equation \ref{eqn:vList}, Algorithm \ref{alg:abstractProductRecursively})\newline 
 
 \begin{algorithm}
-\caption{The alogithm abstractProductRecursively} 
+\caption{The algorithm abstractProductRecursively} 
 \label{alg:abstractProductRecursively}
 abstractProductRecursively$(vList)$
 \begin{algorithmic}[1]
@@ -286,7 +286,7 @@ In this algorithm, the most interesting part is the abstractUnivariateMonomialFo
 \end{sloppypar}
 
 \begin{algorithm}
-\caption{The alogithm abstractUnivariateMonomial} 
+\caption{The algorithm abstractUnivariateMonomial} 
 \label{alg:abstractUnivariateMonomial}
 abstractUnivariateMonomial($v, d$)
 \begin{algorithmic}[1]
@@ -332,7 +332,7 @@ So, abstractUnivariateMonomialForEvenExponent$(x, 8)$ executes as follows:
 \end{example}
 
 \begin{algorithm}
-\caption{The alogithm abstractUnivariateMonomialForEvenExponent} 
+\caption{The algorithm abstractUnivariateMonomialForEvenExponent} 
 \label{alg:abstractUnivariateMonomialForEvenExponent}
 abstractUnivariateMonomialForEvenExponent($v, d$)
 \begin{algorithmic}[1]
@@ -357,7 +357,7 @@ The caller method is whether  abstractUnivariateMonomial($v, d$) (line $6$, Algo
 \end{sloppypar}
 
 \begin{algorithm}
-\caption{The alogithm abstractUnivariateMonomialForOddExponent} 
+\caption{The algorithm abstractUnivariateMonomialForOddExponent} 
 \label{alg:abstractUnivariateMonomialForOddExponent}
 abstractUnivariateMonomialForOddExponent($v, d$)
 \begin{algorithmic}[1]
@@ -711,15 +711,15 @@ Similarly, we can do it for $a$ which is the second case in the following (Figur
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.25\linewidth]{./figures/FullLazySMT.pdf}
-  \caption{Full lazy SMT solver}
+  \includegraphics[width=0.6\linewidth]{./figures/ICP1_1.pdf}
+  \caption{ICP 1.1}
   \label{fig:FixAModifyB}
 \end{figure}
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.25\linewidth]{./figures/FullLazySMT.pdf}
-  \caption{Full lazy SMT solver}
+  \includegraphics[width=0.6\linewidth]{./figures/ICP1_2.pdf}
+  \caption{ICP 1.2}
   \label{fig:FixBModifyA}
 \end{figure}
 

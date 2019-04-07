@@ -1,5 +1,5 @@
 @MISC{LATUM,
-    title = {Linear Arithmetic TUM},
+    title = {Definition 1 ({L}inear {A}rithmetic)},
     author={Gramoz Goranci},
     howpublished = {\url{https://www7.in.tum.de/um/courses/seminar/decisionproc/ws1314/material/LA1.pdf}},
     note 		 = "Last accessed 04 Oct 2018",
@@ -13,8 +13,8 @@
 }
 
 @MISC{TSat,
-    title = {T-satisfiable RWTH},
-    author={Prof. Erika Abraham},
+    title = {Theories \textit{{T}}, \textit{{T}}-safisfiability and \textit{{T}}-validity},
+    author={Erika {\'A}brah{\'a}m},
     howpublished = {\url{https://ths.rwth-aachen.de/wp-content/uploads/sites/4/teaching/vorlesung_satchecking/ws14_15/03a_fo_theories_handout.pdf}},
     note 		 = "Last accessed 31 Oct 2018",
 }
@@ -28,8 +28,8 @@
  }
 
 @MISC{TangentPlane,
-    title = {Tangent Plane},
-    author={Gregory Hartman, Ph.D.},
+    title = {Tangent {L}ines, {N}ormal {L}ines, and {T}angent {P}lanes},
+    author={Gregory Hartman},
     howpublished = {\url{http://spot.pcc.edu/math/APEXCalculus/sec_multi_tangent.html}},
     note 		 = "Last accessed 08 Oct 2018",
 }
@@ -41,10 +41,9 @@
  issue_date = {September 2018},
  volume = {19},
  number = {3},
- month = aug,
  year = {2018},
  issn = {1529-3785},
- pages = {19:1--19:52},
+ pages = {1--52},
  articleno = {19},
  numpages = {52},
  url = {http://doi.acm.org/10.1145/3230639},
@@ -65,13 +64,21 @@
   publisher={Springer Berlin Heidelberg}
 }
 
+%/////////////////////////////////////////////////
+%/
+% https://link.springer.com/chapter/10.1007/978-3-540-73368-3_5
+%/
+%/////////////////////////////////////////////////
 @inproceedings{de2007tutorial,
-  title={A tutorial on satisfiability modulo theories},
-  author={de Moura, Leonardo and Dutertre, Bruno and Shankar, Natarajan},
-  booktitle={International Conference on Computer Aided Verification},
-  pages={20--36},
-  year={2007},
-  organization={Springer}
+author="de Moura, Leonardo
+and Dutertre, Bruno
+and Shankar, Natarajan",
+title="A Tutorial on Satisfiability Modulo Theories",
+booktitle="Computer Aided Verification",
+year="2007",
+publisher="Springer Berlin Heidelberg",
+pages="20--36",
+isbn="978-3-540-73368-3"
 }
 
 @misc{lec:satchecking5a,
@@ -100,11 +107,11 @@
   publisher={RWTH Aachen University Informatik 2 LuFG Theory of Hybrid Systems}
 }
 
-@inproceedings{brahm2010ALS,
-  title={A Lazy SMT-Solver for a Non-Linear Subset of Real Algebra},
-  author={Erika {\'A}brah{\'a}m and Florian Corzilius and Ulrich Loup and Thomas Sturm},
-  booktitle={Verification over discrete-continuous boundaries},
-  year={2010}
+@MISC{brahm2010ALS,
+    title = {{F}ull lazy {SMT}-solving},
+    author={Erika {\'A}brah{\'a}m},
+    howpublished = {\url{https://ths.rwth-aachen.de/wp-content/uploads/sites/4/teaching/vorlesung_satchecking/ws14_15/05a_smt_handout.pdf}},
+    note 		 = "Last accessed 31 Oct 2018",
 }
 
 @incollection{barrett2018satisfiability,
@@ -116,39 +123,112 @@
   publisher={Springer}
 }
 
-@inproceedings{inproceedings,
-author = {Corzilius, Florian and Kremer, Gereon and Junges, Sebastian and Schupp, Stefan and Ábrahám, Erika},
-year = {2015},
-month = {09},
-pages = {},
-title = {SMT-RAT: An Open Source C++ Toolbox for Strategic and Parallel SMT Solving},
-doi = {10.1007/978-3-319-24318-4_26}
+%/////////////////////////////////////////////////
+%/
+% https://link.springer.com/chapter/10.1007/978-3-319-24318-4_26
+%/
+%/////////////////////////////////////////////////
+@InProceedings{inproceedings,
+author="Corzilius, Florian
+and Kremer, Gereon
+and Junges, Sebastian
+and Schupp, Stefan
+and {\'A}brah{\'a}m, Erika",
+title="{SMT-RAT}: An Open Source {C}++ Toolbox for Strategic and Parallel {SMT} Solving",
+booktitle="Theory and Applications of Satisfiability Testing -- SAT 2015",
+year="2015",
+publisher="Springer International Publishing",
+pages="360--368",
+doi = {10.1007/978-3-319-24318-4_26},
+isbn="978-3-319-24318-4"
 }
 
+%/////////////////////////////////////////////////
+%/
+% https://link.springer.com/chapter/10.1007/11817963_11
+%/
+%/////////////////////////////////////////////////
 @InProceedings{10.1007/11817963_11,
 author="Dutertre, Bruno
 and de Moura, Leonardo",
-editor="Ball, Thomas
-and Jones, Robert B.",
-title="A Fast Linear-Arithmetic Solver for DPLL(T)",
+title="A Fast Linear-Arithmetic Solver for {DPLL(T)}",
 booktitle="Computer Aided Verification",
 year="2006",
 publisher="Springer Berlin Heidelberg",
-address="Berlin, Heidelberg",
 pages="81--94",
-abstract="We present a new Simplex-based linear arithmetic solver that can be integrated efficiently in the DPLL(T) framework. The new solver improves over existing approaches by enabling fast backtracking, supporting a priori simplification to reduce the problem size, and providing an efficient form of theory propagation. We also present a new and simple approach for solving strict inequalities. Experimental results show substantial performance improvements over existing tools that use other Simplex-based solvers in DPLL(T) decision procedures. The new solver is even competitive with state-of-the-art tools specialized for the difference logic fragment.",
 isbn="978-3-540-37411-4"
 }
 
 @book{Biere:2009:HSV:1550723,
- author = {Biere, A. and Biere, A. and Heule, M. and van Maaren, H. and Walsh, T.},
- title = {Handbook of Satisfiability: Volume 185 Frontiers in Artificial Intelligence and Applications},
+ author = {Biere, A. and Heule, M. and van Maaren, H. and Walsh, T.},
+ title = {Handbook of Satisfiability},
+ volume = 185,
+ series = {Frontiers in Artificial Intelligence and Applications},
  year = {2009},
  isbn = {1586039296, 9781586039295},
- publisher = {IOS Press},
- address = {Amsterdam, The Netherlands, The Netherlands},
+ publisher = {IOS Press}
 } 
 
+%/////////////////////////////////////////////////
+%/
+% https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=Incremental+Linearization+for+Satisfiability+and+Verification+Modulo+Nonlinear+Arithmetic+and+Transcendental+Functions&btnG=
+%/
+%/////////////////////////////////////////////////
+@phdthesis{irfan2018incremental,
+  title={Incremental Linearization for Satisfiability and Verification Modulo Nonlinear Arithmetic and Transcendental Functions},
+  author={Irfan, Ahmed},
+  year={2018},
+  school={University of Trento}
+}
 
+%/////////////////////////////////////////////////
+%/
+% https://link.springer.com/chapter/10.1007/978-3-642-36742-7_7
+%/
+%/////////////////////////////////////////////////
+@InProceedings{10.1007/978-3-642-36742-7_7,
+author="Cimatti, Alessandro
+and Griggio, Alberto
+and Schaafsma, Bastiaan Joost
+and Sebastiani, Roberto",
+title="{The MathSAT5 SMT Solver}",
+booktitle="Tools and Algorithms for the Construction and Analysis of Systems",
+year="2013",
+publisher="Springer Berlin Heidelberg",
+pages="93--107",
+isbn="978-3-642-36742-7"
+}
 
+%/////////////////////////////////////////////////
+%/
+% https://link.springer.com/chapter/10.1007/978-3-540-78800-3_24
+%/
+%/////////////////////////////////////////////////
+@InProceedings{10.1007/978-3-540-78800-3_24,
+author="de Moura, Leonardo
+and Bj{\o}rner, Nikolaj",
+title="Z3: An Efficient SMT Solver",
+booktitle="Tools and Algorithms for the Construction and Analysis of Systems",
+year="2008",
+publisher="Springer Berlin Heidelberg",
+pages="337--340",
+isbn="978-3-540-78800-3"
+}
 
+%/////////////////////////////////////////////////
+%/
+% http://smtlib.cs.uiowa.edu/credits.shtml#citing
+%/
+%/////////////////////////////////////////////////
+@MISC{BarFT-SMTLIB,
+  author =	 {Clark Barrett and Pascal Fontaine and Cesare Tinelli},
+  title =	 {{The Satisfiability Modulo Theories Library (SMT-LIB)}},
+  howpublished = {{\tt www.SMT-LIB.org}},
+  year =	 2016,
+}
+
+@MISC{SMTLIB-benchmarks,
+  title =	 {{The Satisfiability Modulo Theories Library (SMT-LIB) - Benchmarks}},
+  howpublished = {{\tt http://smtlib.cs.uiowa.edu/benchmarks.shtml}},
+  year =	 2016,
+}
