@@ -6,25 +6,27 @@
 \label{chap:Introduction}
 %/////////////////////////////////////////////////
 %/
+% checked
 This thesis is about checking the satisfiability of logical formulas.
-If the logical formula is a non-linear formula then it is computationally very expensive.
+If the logical formula is a non-linear formula, then it is computationally costly.
 The idea in the thesis of \cite{Cimatti:2018:ILS:3274693.3230639} is to apply linear approximations which are over approximative.
-For non-linear formula, the authors of \cite{Cimatti:2018:ILS:3274693.3230639} define a linear formula whoose solution set over approximates the set of satisfying solutions.
-If a solution for the linear formula is found in the over approximation which does not satisfy the non-linear one then they refine the formula by making the solution set smaller.
-The solution set gets smaller means it is getting closer to the non-linear formula though in general it is never reached.
-That is why, this is incomplete.
+For non-linear formula, the authors of \cite{Cimatti:2018:ILS:3274693.3230639} define a linear formula whose solution set over-approximates the set of satisfying solutions.
+If a solution for the linear formula is found in the over-approximation which does not satisfy the non-linear one, then they refine the formula by making the solution set smaller.
+The solution set gets smaller means that it is getting closer to the non-linear formula though in general it is never reached.
+That is why this is incomplete.
 In this way, they strict the solution set until the refinement is done.
-So, the authors of \cite{Cimatti:2018:ILS:3274693.3230639} proposed an approach, referred to as Incremental Linearization, that trades the use of expensive solvers for non-linear
-formula for an abstraction-refinement loop on top of much less expensive solvers for linear formula \cite{Cimatti:2018:ILS:3274693.3230639}.\newline
+So, the authors of \cite{Cimatti:2018:ILS:3274693.3230639} proposed an approach, referred to as Incremental Linearization, that trades the use of expensive solvers for the non-linear formula for an abstraction-refinement loop on top of much less expensive solvers for linear formula \cite{Cimatti:2018:ILS:3274693.3230639}.\newline
 
-\noindent Our contribution in this thesis is the implementation of this method in SMT-RAT and following up on heuristic aspects which are not addressed in the PhD thesis \cite{irfan2018incremental}.
-We have also contributed in this thesis work by introducing a new axiom referred as Interval Constraint Propagation (ICP) axiom which is one of the axiom types based on which the refinement is performed.
-This ICP axiom is not also mentioned in the PhD thesis \cite{irfan2018incremental}.\newline
+% checked
+\noindent Our contribution in this thesis is the implementation of this method in SMT-RAT and following up on heuristic aspects which are not addressed in the Ph.D. thesis \cite{irfan2018incremental}.
+We have also contributed in this thesis work by introducing a new axiom referred to as Interval Constraint Propagation (ICP) axiom which is one of the axiom types based on which the refinement is performed.
+This ICP axiom is not also mentioned in the Ph.D. thesis \cite{irfan2018incremental}.\newline
 
+% checked
 \noindent The organization of this thesis paper is as follows.
-In Chapter \ref{chap:Preliminaries} we introduce basic terms and definitions including a brief explanation on Incremental Linearization for non-linear formulas as in the PhD thesis \cite{irfan2018incremental} which are needed to read this paper.
-Chapter \ref{chap:Incremental_Linearization_For_Real_Arithmetic} provides an explanation of our contributions with some algorithms and examples in details.
+In Chapter \ref{chap:Preliminaries} we introduce basic terms and definitions including a brief explanation on Incremental Linearization for non-linear formulas as in the Ph.D. thesis \cite{irfan2018incremental} which are needed to read this paper.
+Chapter \ref{chap:Incremental_Linearization_For_Real_Arithmetic} explains our contributions with some algorithms and examples in details.
 Chapter \ref{chap:implementation} describes the important parts of implementation.
 Chapter \ref{chap:experimental_result} discusses experimental results.
-Finally, we conclude the thesis in Chapter \ref{chap:conclusion_and_Future_Work} by highlighting the future work.
+Finally, we conclude the thesis in Chapter \ref{chap:conclusion_and_Future_Work} by highlighting future work.
 

@@ -1,0 +1,128 @@
+\documentclass[]{beamer}
+
+\mode<presentation>
+{
+    % Include the theme
+    \usetheme{rwth}
+%    \setbeamercovered{transparent = 0}
+}
+\usepackage{etex}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{latexsym,amsmath,amsfonts,amssymb, mathtools, MnSymbol}
+\usepackage{xspace}
+\usepackage{theorem}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.pathmorphing,positioning,fit,trees,shapes,shadows,automata,calc}
+\usepackage{pgfplots}
+\usepackage[numberedbib]{apacite}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+\usepackage{multirow,booktabs}
+\usepackage{marvosym}
+%\usepackage[
+%backend=biber,
+%style=alphabetic,
+%citestyle=authoryear 
+%]{biblatex}
+%\addbibresource{publications} %Imports bibliography file
+%\nocite{*}
+
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+
+%tables
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage[clock]{ifsym}%for the clock symbol
+\usepackage{rotating}
+\usepackage{romannum}
+\usepackage{caption}
+\captionsetup{labelformat=empty,labelsep=none}
+
+\include{commands.tex}
+\include{packages.tex}
+
+\begin{document}
+\RWTHtoc
+
+\title[Incremental Linerization for SAT Modulo Real Arithmetic Solving]{Incremental Linerization for SAT Modulo Real Arithmetic Solving}
+
+\author[Aklima Zaman]{\textcolor{RWTHblue}{Aklima Zaman}\linebreak Advisor: Prof. Dr. Erika Ábrahám}
+
+\institute[]{}
+
+\date{17 April 2019}
+
+
+\frame{
+	\titlepage	
+}
+
+\section{Introduction}
+\begin{frame}{Introduction}
+    \textbf{SMT Solving}
+    \begin{itemize}
+        \pause
+        \item Part 1
+        \pause
+		\item Wait for it
+		\item 
+    \end{itemize}
+\end{frame}
+
+\section{The incremental linearization process}
+\begin{frame}{The incremental linearization process}
+
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=yellow!20, 
+    text width=2.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=12em, text centered, rounded corners, minimum height=1em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=1em]
+\begin{figure}
+\centering
+\scalebox{0.75}{
+ \begin{tikzpicture}[node distance = 1cm, auto]
+    % Place nodes\node [block] ()
+    \node [block] (nra) {NRA Formula, $\varphi$};
+    \node [cloud, below=0.3cm of nra] (linearization) {Linearization};
+    \node [block, below of=linearization] (lra) {LRA Formula, $\hat{\varphi}$};
+    \node [cloud, below=0.3cm of lra] (smtsolver) {SMT Solver};
+    \node [block, below of=smtsolver] (satmod) {SAT + Model ($\hat{\mu}$) of $\hat{\varphi}$};
+    \node [block, right of=smtsolver, node distance=4cm, minimum height=3em, text width=7em] (unsatorunknown) {UNSAT / UNKNOWN};
+    \node [block, below=0.3cm of satmod] (ext) {Extend $\hat{\mu}$ to assign all variables in  $\varphi$};
+    \node [cloud, left=0.5cm of ext] (formula) {$\hat{\varphi} := \hat{\varphi} \wedge \bigwedge\limits_{\psi \in A} \psi$};
+    \node [decision, below=0.3 of ext, text width=4em] (decide) {$\mu \models \varphi ?$};
+    \node [block, right of=decide, node distance=4cm, minimum height=1em, text width=7em] (sat) {SAT};
+    \node [block, below=0.7cm of decide] (refinement) {Refinement for NRA};
+    \node [cloud, below=0.5cm of refinement] (setofaxioms) {Set A of axioms unsatisfied under $\hat{\mu}$};
+    % Draw edges
+    \path [line] (nra) -- (linearization);
+    \path [line] (linearization) -- (lra);
+    \path [line] (lra) -- (smtsolver);
+    \path [line] (smtsolver) -- (satmod);
+    \path [line] (smtsolver) -- (unsatorunknown);
+    \path [line] (formula) |- (smtsolver);
+    \path [line] (satmod) -- (ext);
+    \path [line] (ext) -- (decide);
+    \path [line] (decide) -- node {No}(refinement);
+    \path [line] (decide) -- node {Yes}(sat);
+    \path [line] (refinement) -- (setofaxioms);
+    \path [line] (setofaxioms) -| (formula);
+\end{tikzpicture}}
+ \label{fig:system_architecture_ours}
+\end{figure}
+\end{frame}
+
+\section{}
+\begin{frame}{}
+
+\end{frame}
+
+\end{document}
+

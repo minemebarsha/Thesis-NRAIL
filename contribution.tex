@@ -11,23 +11,24 @@
 %/
 %/////////////////////////////////////////////////
 \label{sec:system_architecture}
+% checked
 So far, we have seen the basic concepts to understand our thesis work and how the authors of \cite{Cimatti:2018:ILS:3274693.3230639} have performed incremental linearization (IL) for SMT Solver.
 Figure \ref{fig:system_architecture_ours} depicts the whole process of our thesis work.\newline
 
 \noindent The input is an NRA formula $\varphi$.
-At first $\varphi$ is linearized to a LRA formula $\hat{\varphi}$ by a linearization method.
+At first, $\varphi$ is linearized to a LRA formula $\hat{\varphi}$ by a linearization method.
 This linearization method follows the Algorithm \ref{alg:linearization} which we will explain later.
-The formula $\hat{\varphi}$ is passed to the SMT solver and it results in either SAT with a satisfying solution $\hat{\mu}$ of $\hat{\varphi}$ or UNSAT or UNKNOWN.
-SAT means the SMT solver finds $\hat{\varphi}$ is being satisfiable, UNSAT means $\hat{\varphi}$ is not satisfiable and UNKNOWN means the SMT solver is unable to determine the satisfiability  of $\hat{\varphi}$.
+The formula $\hat{\varphi}$ is passed to the SMT solver, and it results in either SAT with a satisfying solution $\hat{\mu}$ of $\hat{\varphi}$ or UNSAT or UNKNOWN.
+SAT means the SMT solver finds $\hat{\varphi}$ is being satisfiable, UNSAT means $\hat{\varphi}$ is not satisfiable and UNKNOWN means the SMT solver is unable to determine the satisfiability of $\hat{\varphi}$.
 If the SMT solver results in either UNSAT or UNKNOWN, the method terminates.
 Otherwise, it continues to work following the next step.\newline
 
 \noindent The next step is to extend $\hat{\mu}$ to a model $\mu$ for assigning all variables in $\varphi$.
 We have named $\mu$ as an estimated model.
-If $\mu$ satisfies $\varphi$, it returns SAT and we are done.
+If $\mu$ satisfies $\varphi$, it returns SAT, and we are done.
 Otherwise, we have to perform refinement over some predefined axioms to resist the spurious solutions of $\mu$.
-This refinement process outputs a set $A$ of axioms that prevents the spurious solutions.
-Finally, $\hat{\varphi}$ is augmented by conjuncting each axiom $\psi$ from the set $A$ and again $\hat{\varphi}$ is passed to the SMT solver.
+This refinement process outputs a set $A$ of axioms that prevent spurious solutions.
+Finally, $\hat{\varphi}$ is augmented by adding each axiom $\psi$ from the set $A$ and again $\hat{\varphi}$ is passed to the SMT solver.
 This loop continues unless the SMT solver finds UNSAT or UNKNOWN for $\hat{\varphi}$ or the estimated model $\mu$ satisfies $\varphi$.\newline
 
 % Define block styles
@@ -40,7 +41,7 @@ This loop continues unless the SMT solver finds UNSAT or UNKNOWN for $\hat{\varp
     minimum height=2em]
 \begin{figure}
 \centering
-\begin{tikzpicture}[node distance = 2cm, auto]
+ \begin{tikzpicture}[node distance = 2cm, auto]
     % Place nodes\node [block] ()
     \node [block] (nra) {NRA Formula, $\varphi$};
     \node [cloud, below=0.5cm of nra] (linearization) {Linearization};
@@ -78,16 +79,18 @@ This loop continues unless the SMT solver finds UNSAT or UNKNOWN for $\hat{\varp
 %/
 %/////////////////////////////////////////////////
 \label{sec:Our_Approach}
+% checked
 We have constructed an SMT-RAT module named \textit{NRAILModule} that linearizes an input NRA formula incrementally, solves it and utilizes the solution if the input NRA formula is not satisfied by it to make it satisfying via a refinement process.
 SMT-RAT is an open source C++ toolbox for strategic and parallel SMT solving consisting of a collection of modules for solving quantifier-free (non)linear real and integer arithmetic formulas \cite{inproceedings}.\newline
 
 \noindent Each of the modules of SMT-RAT implements a common interface.
 The interface consists of some methods including addCore, checkCore. 
-These methods are invoked by SMT-RAT in a defined manner.
+SMT-RAT invokes these methods in a defined manner.
 The addCore($\varphi^\prime$) is invoked for each sub-formula $\varphi^\prime$ of the given input formula $\varphi$ by SMT-RAT at the beginning.
 The checkCore() is invoked at the end to check the satisfiability of $\varphi$.
 In our case, we perform linearization for each $\varphi^\prime$ in addCore($\varphi^\prime$) and the satisfiability checking logic with refinement process is formulated in checkCore().\newline
 
+% checked
 \begin{example}
 \label{example:reorganization}
 An example quantifier-free NRA formula:
@@ -106,10 +109,11 @@ We will explain SMT-RAT partly whenever we will need it to understand our work.
 %/
 %/////////////////////////////////////////////////
 \label{subsec:addCore}
+% checked
 The algorithm addCore($\varphi^\prime$) is shown in Algorithm \ref{alg:addcore}.
 This addCore($\varphi^\prime$) is responsible for invoking the linearization method for each $\varphi^\prime$.
 SMT-RAT has no module or method to linearize a formula.
-That is why, we have introduced a method for linearization.
+That is why we have introduced a method for linearization.
 Also, SMT-RAT does not support UF.
 So, in this work, one of our contributions is to adapt the linearization process by variables.\newline
 
@@ -135,6 +139,7 @@ addCore($\varphi^\prime$)
 %/
 %/////////////////////////////////////////////////
 \label{subsubsec:Linearization}
+% checked
 \noindent The basic idea is to abstract each multiplication term (i.e., $x \ast x$, $x \ast y$ and so on) in a formula by a new variable called $z-variable$ (i.e., $z_1, z_2,\dots, z_i \hspace{1mm}\text{for some}\hspace{1mm} i \in \mathbb{N}$).
 The abstraction is performed incrementally until the formula is linearized.
 Algorithm for linearization is shown in Algorithm \ref{alg:linearization}.\newline
@@ -173,6 +178,7 @@ linearization($\varphi^\prime$)
 \end{algorithmic}
 \end{algorithm}
 
+% checked
 \noindent In line $9$ and $10$, we extract the monomial $m$ and the coefficient $a$ from $t:= a \ast m$, respectively.
 After that, abstractMonomial($m$) is invoked which returns a variable $z$ that is used as an abstraction $m$ (line $11$).
 abstractMonomial($m$) is explained briefly in Section \ref{subsubsec:Abstract_A_Monomial_IncrementallyBy_Z-variables}.
@@ -185,9 +191,10 @@ Finally, $i$ is incremented by 1 (line $13$) and the loop continues if there are
 \noindent After termination of the inner loop, in line $15$ a linear constraint is created by building a sum of the terms in $\hat{p}$ and comparing it to $0$ according to the comparison operator of $c$.
 This linear constraint is added to the list $\hat{\varphi}^\prime$ at position $j$.
 Note that due to the reorganization of $\varphi$ by SMT-RAT shown in the Example \ref{example:reorganization}, the left-hand side of $c$ is always a sum of terms, the latter being products of a constant and variables.
-Then $j$ is incremented by 1 (line $16$) and the outer loop continues if there are other constraints left in $\varphi^\prime$.
+Then $j$ is incremented by 1 (line $16$), and the outer loop continues if there are other constraints left in $\varphi^\prime$.
 Lastly, in line $18$, the algorithm returns $\hat{\varphi}^\prime$.\newline
 
+% checked
 \begin{example}
 \label{example:linearization}
 Consider the same example formula as in the Example \ref{example:reorganization}:
@@ -227,9 +234,10 @@ $$\hat{\varphi} := ( z_{6} + (-1)y + (-5) < 0 ) \wedge ( z_{7} + 1 < 0 )$$
 %/
 %/////////////////////////////////////////////////
 \label{subsubsec:Abstract_A_Monomial_IncrementallyBy_Z-variables}
+% checked
 In the previous section, we have seen how the linearization process works and when abstractMonomial($m$) is called.
 We have also seen how abstractMonomial($m$) method is executed and what this method returns (see Equation \ref{eqn:abstractMonomial}, Example \ref{example:linearization}). 
-Encapsulating $m$ incrementally by Z-variables is the core of whole linearization proces.
+Encapsulating $m$ incrementally by Z-variables is the core of whole linearization process.
 In this section, we are going to see the algorithm behind this abstraction of $m$.\newline
 
 \begin{algorithm}
@@ -246,8 +254,9 @@ abstractMonomial($m$)
 \end{algorithmic}
 \end{algorithm}
 
+% checked
 \noindent The main idea of Algorithm \ref{alg:abstractMonomial} is to replace each univariate multiplication term (i.e., $x^2$ or $y^2$) $v^d$ in a monomial $m$ where $d \text{ is a positive integer}$ by $z-variable$, this $z-variable$ remains the same for each multiplication term ($x^2$) of $x$ where $x \in v$ means $x$ is the original variable.
-We have mentioned the variable as original variable if it is contained in the input formula, $\varphi$.
+We have mentioned the variable as the original variable if it is contained in the input formula, $\varphi$.
 This replacement continues until in the input monomial $m = x_{1}^{d_{1}}, \dots,x_{n}^{d_{n}}$ with $d_i \geq 1$ for all $i = 1, \dots, n$, we introduced an abstraction variable $z_i$ for each $x_i$ with $d_i > 1$.
 Finally, the product of these abstraction variables and all $x_i$ with $d_i = 1$ is abstracted and returned to the caller method linearization($\varphi^\prime$) (see Equation \ref{eqn:vList}, Algorithm \ref{alg:abstractProductRecursively})\newline 
 
@@ -270,13 +279,14 @@ abstractProductRecursively$(vList)$
     \underbrace{ \underbrace{ \underbrace{ vList_{0} \hspace{5mm} \ast \hspace{5mm} vList_{1} }\limits_{z_{j}} \hspace{5mm} \ast \hspace{5mm} vList_{2} }\limits_{{z_{j+1}}_{\vdots}} \hspace{5mm} \ast \hspace{5mm} \dots \hspace{5mm} \ast \hspace{5mm} vList_{i}}\limits_{z \hspace{1mm} \to \hspace{1mm} z_{j+i-1}} \hspace{5mm} \label{eqn:vList}
 \end{align}
 
-\noindent Here, $i$ is a non-negative integer and $j$ is a positive integer.
+\noindent Here, $i$ is a non-negative integer, and $j$ is a positive integer.
 %/////////////////////////////////////////////////
 %/
 \subsubsection{Abstraction of Univariate Monomial}
 %/
 %/////////////////////////////////////////////////
 \label{subsubsec:abstractUnivariateMonomial}
+% checked
 \begin{sloppypar}
 From the Section \ref{subsubsec:Abstract_A_Monomial_IncrementallyBy_Z-variables}, we have got to know that each $v^d$ in a monomial $m$ is abstracted by a fresh variable (line $3$, Algorithm \ref{alg:abstractMonomial}).
 The using abstractUnivariateMonomial($v, d$) is in Algorithm \ref{alg:abstractUnivariateMonomial}.
@@ -304,6 +314,7 @@ abstractUnivariateMonomial($v, d$)
 \end{algorithmic}
 \end{algorithm}
 
+% checked
 \noindent Lines $3$ to $4$ run if the remainder of $d \hspace{1mm}\%\hspace{1mm} 2$ is equal to $0$ means that $d$ is an even exponent.
 As $d$ is an even exponent, there must be even numbers of $v$.
 So, each pair of $v$ will be easily replaced by the same $z-variable$ (line $2$, Algorithm \ref{alg:abstractUnivariateMonomialForEvenExponent}) and a new monomial $m$ is being created (line $3$, Algorithm \ref{alg:abstractUnivariateMonomialForEvenExponent}):
@@ -343,6 +354,7 @@ abstractUnivariateMonomialForEvenExponent($v, d$)
 \end{algorithmic}
 \end{algorithm}
 
+% checked
 \begin{sloppypar}
 \noindent Now, line $5$ to $6$ runs if the remainder of $d \hspace{1mm}\%\hspace{1mm} 2$ is equal to $1$ means that $d$ is an odd exponent.
 For this, the execution process of abstractUnivariateMonomialForOddExponent$(v, d)$ (Algorithm \ref{alg:abstractUnivariateMonomialForOddExponent}) is different than abstractUnivariateMonomialForEvenExponent$(v, d)$ (Algorithm \ref{alg:abstractUnivariateMonomialForEvenExponent}).
@@ -382,6 +394,8 @@ abstractUnivariateMonomialForOddExponent($v, d$)
 \end{algorithmic}
 \end{algorithm}
 
+% checked
+\begin{sloppypar}
 \begin{example}
 \label{example:odd}
 Let us consider a variable $x$ with an odd exponent, $d = 7$.
@@ -401,8 +415,9 @@ So, abstractUnivariateMonomialForOddExponent$(x, 7)$ executes as follows:
     
     $$m := z_{1}^3 \hspace{5mm} ;\hspace{1mm}(d^\prime := \frac{7}{2} = 3)$$
     Now, the while loop starts:
+    
     \begin{itemize}
-        \item Loop $1$: $m$ has odd exponent and abstractUnivariateMonomialForOddExponent$(z_{1}, 3)$ is called:
+        \item Loop $1$: $m$ has odd $\hspace{10mm}$exponent and abstractUnivariateMonomialForOddExponent$(z_{1}, 3)$ is called:
         
 \tikzset{every picture/.style=remember picture}
 \begin{figure}[H]
@@ -418,6 +433,7 @@ So, abstractUnivariateMonomialForOddExponent$(x, 7)$ executes as follows:
         
         $$m := z_{2} \hspace{5mm} ;\hspace{1mm}(d^\prime := \frac{3}{2} = 1)$$
     \end{itemize}
+
     As $m$ is linear, $z_{2}$ is pushed into the front of $extraVList$ and the loop terminates.
     To get the single and final $z-variable$, the product of each two elements of $extraVList$ are replaced as follows:
     
@@ -435,11 +451,14 @@ So, abstractUnivariateMonomialForOddExponent$(x, 7)$ executes as follows:
     
     $$m := z_{4}$$
 \end{example}
+\end{sloppypar}
 
+% checked
 \begin{sloppypar}
 \noindent Notice that abstractUnivariateMonomialForEvenExponent$(v, d)$ may not return a linear monomial (example \ref{example:even}), whereas abstractUnivariateMonomialForOddExponent$(v, d)$ always returns a linear monomial (example \ref{example:odd}).\newline
 \end{sloppypar}
 
+\begin{sloppypar}
 \begin{example}
 \label{example:abstractUnivariateMonomial}
     In the example \ref{example:linearization}, we have seen how a monomial $x^9y^2$ is linearized in an abstract way (equation \ref{eqn:abstractMonomial}).
@@ -509,7 +528,8 @@ So, abstractUnivariateMonomialForOddExponent$(x, 7)$ executes as follows:
         Then abstractUnivariateMonomialForEvenExponent$(y, 2)$ is executed (line $4$, Algorithm \ref{alg:abstractUnivariateMonomial}) as $2$ is an even exponent:
         $$\underbrace{ y \ast y }\limits_{z_{5}}$$
         $$m^\prime := z_{5} \hspace{5mm} ;\hspace{1mm}(d^\prime := \frac{2}{2} = 1)$$
-        The linear monomial $z_{5}$ is returned by abstractUnivariateMonomialForEvenExponent$(y, 2)$ (line $4$, Algorithm \ref{alg:abstractUnivariateMonomialForEvenExponent}).
+        
+        The linear monomial $\hspace{10mm}z_{5}$ is returned by abstractUnivariateMonomialForEvenExponent$(y, 2)$ (line $4$, Algorithm \ref{alg:abstractUnivariateMonomialForEvenExponent}).
         So, abstractUnivariateMonomial($y, 2$) returns $z_{5}$ (line $8$, Algorithm \ref{alg:abstractMonomial}) that is pushed back into $vList$ (line $3$, Algorithm \ref{alg:abstractMonomial}).
         
 \tikzset{every picture/.style=remember picture}
@@ -539,12 +559,14 @@ So, abstractUnivariateMonomialForOddExponent$(x, 7)$ executes as follows:
 
     \end{itemize}
 \end{example}
+\end{sloppypar}
 %/////////////////////////////////////////////////
 %/
 \subsection{checkCore()}
 %/
 %/////////////////////////////////////////////////
 \label{subsec:checkCore}
+% checked
 \begin{sloppypar}
 So far, we have seen the linearization process of the input formula $\varphi$ done by addCore($\varphi^\prime$) for each sub-formula $\varphi^\prime$ of $\varphi$ in details.
 Now, further computations will be handled by checkCore().
@@ -552,28 +574,30 @@ This method will check the satisfiability of the linearized formula $\hat{\varph
 If $\hat{\varphi}$ is satisfied, we will check whether the solution for the linear abstraction also a solution for the non-linear formula $\varphi$.
 If it is the case, we are done.
 Otherwise, we will try to modify the solution for the linear abstraction in order to make it satisfying for $\varphi$.
-If we succeed then we are done and $\varphi$ is satisfiable.
+If we succeed, then we are done, and $\varphi$ is satisfiable.
 Otherwise, we refine the abstraction by adding some additional information about the properties of multiplication, expressed by linear formulas.
-This refinement process is the core functionality of checkCore() and our thesis work as well.\newline
+This refinement process is the core functionality of checkCore(), and our thesis work as well.\newline
 \end{sloppypar}
 
+% checked
 \noindent The algorithm checkCore is shown in Algorithm \ref{alg:checkCore}.
 An empty set $A$ is initialized (line $1$) and a counter $count$ is initialized to 0 (line $2$).
 In line $3$, choose any positive integer $n$.
 Then a while loop runs until $count \neq n$ (lines $4$ to $14$).
 We have bounded the refinement process by a predefined loop $n$ so that it terminates.
-Otherwise, it could be the case that the refinement continues forever without reaching a conclusion about satisfiability.
+Otherwise, it could be the case that the refinement continues forever without concluding satisfiability.
 In our case, we have set $n = 11$ means that this loop will be run maximum $10$ times.
 If it completes $10$ loops, checkCore() will return UNKNOWN (line $15$).
 The abstraction $\hat{\varphi}$ is passed to an SMT solver for LRA which returns either SAT or UNSAT or UNKNOWN (line $5$).
 If it returns SAT, it will also return a satisfying model $\hat{\mu}$ for $\hat{\varphi}$ and our work starts.
 Otherwise, checkCore() terminates by returning UNSAT or UNKNOWN (lines $6$ to $7$).\newline
 
+% checked
 \noindent Now, createEstimatedAssignment$(\varphi, \hat{\varphi}, \hat{\mu})$ is invoked which will try to generate a model $\mu$ for $\varphi$ by adapting the model $\hat{\mu}$ for $\hat{\varphi}$ (line $8$).
 We have already mentioned in Section \ref{subsec:addCore} that the linearization is introduced in \cite{Cimatti:2018:ILS:3274693.3230639} is modified not to use uninterpreted functions but variables for the abstraction.
 The adaptation is relatively straightforward, but the main difference is that now the solution to the linearization problem does not provide assignments to all variables.
 That is why we need some additional heuristic to get the assignments of variables which are in the original formula ($\varphi$).
-So, our idea is to first check if $\hat{\mu}$ conatins any soluitons for orignal variables and add it to $\mu$.
+So, our idea is first to check if $\hat{\mu}$ contains any solutions for original variables and add it to $\mu$.
 Then we guess values for the remaining original variables.
 In our work, we always guess the value zero.
 We have named $\mu$ estimated model.
@@ -585,7 +609,7 @@ Otherwise, the refinement process is performed.\newline
 \begin{algorithm}
 \caption{The algorithm checkCore} 
 \label{alg:checkCore}
-checkCore ( )
+checkCore()
 \begin{algorithmic}[1]
 \State $A := \emptyset$
 \State $count := 0$
@@ -606,11 +630,12 @@ checkCore ( )
 \end{algorithmic}
 \end{algorithm}
 
+% checked
 \noindent Refinement is a process by which we try to remove the spuriousness of linearized model $\hat{\mu}$ by adding some axioms to $\hat{\varphi}$ from a list of axioms so that the solution scopes get limited.
 We have already mentioned that our work is inspired by the work \cite{Cimatti:2018:ILS:3274693.3230639}.
 We have used the same list of axioms shown in \ref{fig:Constraint_Schemata_For_Multiplication} with some modifications.
-We will discuss about our contribution on refinement process in the next section.
-Refinement is resposible for extending the abstraction with axioms that are not satisfied by $\hat{\mu}$ (line $12$).
+We will discuss about our contribution to the refinement process in the next section.
+Refinement is responsible for extending the abstraction with axioms that are not satisfied by $\hat{\mu}$ (line $12$).
 These unsatisfied axioms are collected into $A$.
 Lastly, each axiom $\psi \in A$ is conjoined to $\hat{\varphi}$ (line $13$) and proceed to next loop by incrementing $count$ by $1$ with modified $\hat{\varphi}$.
 %/////////////////////////////////////////////////
@@ -619,21 +644,22 @@ Lastly, each axiom $\psi \in A$ is conjoined to $\hat{\varphi}$ (line $13$) and 
 %/
 %/////////////////////////////////////////////////
 \label{subsec:Refinement_Process}
-The aim of refinement process is to prevent spurious assignments of the linearized model to multiplication terms.
+% checked
+The refinement process aims to prevent spurious assignments of the linearized model to multiplication terms.
 So that, we can get closer and closer for input NRA formula being satisfied.
-For each multiplication term, it is checked whether the linearized model satisfies all axioms shown in the Figure \ref{fig:List_Of_Axioms_For_Refining_Multiplication}.
-We are not concernded about satisfied axioms, but the unsatisfied axioms.
+For each multiplication term, it is checked whether the linearized model satisfies all axioms shown in Figure \ref{fig:List_Of_Axioms_For_Refining_Multiplication}.
+We are not concerned about satisfied axioms, but the unsatisfied axioms.
 Unsatisfied axioms are collected to a set, $A$ for each multiplication term (Algorithm \ref{alg:checkCore}, line $12$).
-Each unsatisfied axiom of $A$ is added to linearized formula and again it is passed to SMT LRA solver.
+Each unsatisfied axiom of $A$ is added to the linearized formula, and again it is passed to SMT LRA solver.
 Further computation remains the same explained in the Section \ref{subsec:checkCore}.\newline
 
-\noindent Note that the linearized model maybe incomplete for some multiplication terms.
-If this is the case, we guess the values for the variables conatining in the multiplication terms.\newline
+\noindent Note that the linearized model is maybe incomplete for some multiplication terms.
+If this is the case, we guess the values for the variables containing in the multiplication terms.\newline
 
 \noindent The generation of axioms shown in the Figure \ref{fig:Constraint_Schemata_For_Multiplication} is already done in \cite{Cimatti:2018:ILS:3274693.3230639}.
-We generate those differently as we do not encode them as uninterpreted function, but another way.
+We generate those differently as we do not encode them as the uninterpreted function, but another way.
 So, our contribution is now to generate those in our way.
-That is why, our list of axioms shown in the Figure \ref{fig:List_Of_Axioms_For_Refining_Multiplication} is different from the Figure \ref{fig:Constraint_Schemata_For_Multiplication}.\newpage 
+That is why our list of axioms shown in Figure \ref{fig:List_Of_Axioms_For_Refining_Multiplication} is different from Figure \ref{fig:Constraint_Schemata_For_Multiplication}.\newpage 
 
 \vspace*{50px}
 \begin{table}[!ht]
@@ -662,16 +688,17 @@ Congruence : & $\forall x_{1}, y_{1}, x_{2}, y_{2}. ((x_1 = x_2) \wedge (y_1 = y
 \label{fig:List_Of_Axioms_For_Refining_Multiplication}
 \end{figure}\newpage
 
+% checked
 \noindent We have generated the axioms by encoding them as variables for each multiplication term.
 If we notice, we can see some other differences between the Figures \ref{fig:List_Of_Axioms_For_Refining_Multiplication} and \ref{fig:Constraint_Schemata_For_Multiplication}:
 
 \begin{itemize}
     \item We have ignored the axioms of type sign and commutativity because we do not have parameters.
     That is why, we do not have this expressions (i.e., $f(x, y), f(-x, -y), f(y, x)$ and so on) in the formula.
-    We only have $z$ and if we refine then we will have $x$ and $y$.
-    \item We handle square expressions differently than normal multiplication by introducing a special axiom for squares instead of tangent plane which is more appropriate.
-    The axiom is basically similar.
-    Instead of two values for the variables we have only one value because the variables are the same.
+    We only have $z$, and if we refine, then we will have $x$ and $y$.
+    \item We handle square expressions differently than normal multiplication by introducing a special axiom for squares instead of a tangent plane which is more appropriate.
+    The axiom is similar.
+    Instead of two values for the variables, we have only one value because the variables are the same.
     So, if the product is a square, we do not need the old one, but the new one.
     Let, $z_1^2$ is encapsulated by $z$ means that $z = z_1 \ast z_1$ and their assignments are, $\hat{\mu}(z) = v \text{ and } \hat{\mu}(z_1) = v_1$.
     Now, if $v \neq v_1^2$, we will add our newly introduced axiom for square expression to $A$ instead of the old one.
@@ -682,7 +709,8 @@ If we notice, we can see some other differences between the Figures \ref{fig:Lis
     $$\text{add } ((z_1 = z_1^\prime \wedge z_2 = z_2^\prime) \to z = z^\prime) \text{ to } A.$$
 \end{itemize}
 
-\noindent $\textbf{ICP Axioms:}$ We have also contibuted in this work by proposing a completely new type of axioms based on integral constraint propagation (ICP).
+% checked
+\noindent $\textbf{ICP Axioms:}$ We have also contributed to this work by proposing an entirely new type of axioms based on integral constraint propagation (ICP).
 We named this type of axioms as ICP axiom.
 Let us consider, $z = x*y$ and we take the absolute values of $x, y \text{ and } z$:
 $$|\mu(x)| = a, |\mu(y)| = b \text{ and } |\mu(z)| = c$$
@@ -696,7 +724,7 @@ We choose $a^\prime$ and $b^\prime$ in a way that $c^\prime = a^\prime \ast b^\p
 For example, we fix the value of $a$ and modify the value of $b$ by making it smaller.
 In Figure \ref{fig:FixAModifyB}, we make $b$ smaller by choosing any $b^\prime$ such that it is still larger than $\frac{c}{a}$ which is the first case in the following.
 Furthermore, it will still lead to a product $a \ast b^\prime$ that is above the product $c$, but closer than $c$ to $a \ast b$.
-Now, for the given $a$, we can exclude all of this values for $b^\prime$.
+Now, for the given $a$, we can exclude all of these values for $b^\prime$.
 Similarly, we can do it for $a$ which is the second case in the following (Figure \ref{fig:FixBModifyA}).\newline
 
 
@@ -711,20 +739,21 @@ Similarly, we can do it for $a$ which is the second case in the following (Figur
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.6\linewidth]{./figures/ICP1_1.pdf}
-  \caption{ICP 1.1}
+  \includegraphics[width=0.5\linewidth]{./figures/ICP1_1.pdf}
+  \caption{Fix $a$ and modify $b$ if $c < a \ast b$}
   \label{fig:FixAModifyB}
 \end{figure}
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.6\linewidth]{./figures/ICP1_2.pdf}
-  \caption{ICP 1.2}
+  \includegraphics[width=0.5\linewidth]{./figures/ICP1_2.pdf}
+  \caption{Fix $b$ and modify $a$ if $c < a^\prime \ast b^\prime$}
   \label{fig:FixBModifyA}
 \end{figure}
 
 \noindent  Notice that $a$ and $b$ are positive and we know that their product is not $c$.\newline
 
+% checked
 \noindent  So, for $c < a \ast b$ we have two axioms, generalizing the above observations also to the negative domain (remember we defined $c^\prime = a^\prime \ast b^\prime$):
 
 \begin{enumerate}
@@ -748,35 +777,37 @@ So, $c$ will be excluded.\newline
      We choose, $a \leq a^\prime < \frac{c}{b^\prime}$
 \end{itemize}
 
+% checked
 \noindent  So, for $c > ab$ we have one axiom, which covers also the case for zero values and the symmetric case for negative values:
 $$(-a^\prime \leq x \leq a^\prime) \wedge (-b^\prime \leq y \leq b^\prime) \to (-c^\prime \leq z \leq c^\prime)$$
 
-\noindent  $\textbf{Heuristics:}$ We have also contributed in this work by using different heuristics to identify the unsatisfied axioms.
-Our main goal of using different heuristics in the refinement process is to identify unsatisfied axioms in a way so that the axiom generation is computationally not too expensive and adding them for refinement will exclude a relatively large or search-wise relevant" part of the state space.
+\noindent  $\textbf{Heuristics:}$ We have also contributed to this work by using different heuristics to identify the unsatisfied axioms.
+Our primary goal of using different heuristics in the refinement process is to identify unsatisfied axioms in a way so that the axiom generation is computationally not too expensive and adding them for refinement will exclude a relatively large or search-wise \enquote{relevant} part of the state space.
 In other words, different heuristics will help us to find the best way of refinement.
-Generally, there is a maximum numbers of unsatisfied axioms we can use for refinement.
+Generally, there are maximum numbers of unsatisfied axioms we can use for refinement.
 We may control the number of unsatisfied axioms to be added to $A$.
 We can start checking with the easiest axiom. 
-So, we check zero axiom for all formulas for all equalities.
-If we find unsatisfied any zero axiom then we add it to the linearized formula and recheck.
-We can also check any type of axioms regardless of whether the axiom is the easiest one for all equalities.
-Then, collect all unsatisfied axioms to $A$ which are added to the linearized formula  and recheck.
+So, we check zero axioms for all multiplication terms.
+If we find unsatisfied any zero axioms, then we add it to the linearized formula and recheck.
+We can also check any axioms regardless of whether the axiom is the easiest one for all multiplication terms.
+Then, collect all unsatisfied axioms to $A$ which are added to the linearized formula and recheck.
 Moreover, we can remove some unsatisfied axioms from $A$ before adding it to the linearized formula.
-So, there is no specific rules to generate $A$.
+So, there are no specific rules to generate $A$.
 If $A$ is not empty, we refine and continue. 
 If $A$ is empty, we think about the next axiom type.\newline
 
+% checked
 \noindent We have tried different heuristics.
 Then, we have tried to compare the running time so that we can decide what is better and which type of axioms to check first.
-We have tried to come to a conclusion whether it is better to add always one unsatisfied axiom to $A$ or it is better to add one for each multiplication term or for some multiplication terms.
-Basically, we play around because we know that we will not get the same solution for different heuristics.
-It is completely up to us how we want to play with the axioms.
-That is why, we try different ways to compute the running time and evaluate to find the best heuristic.\newline
+We have tried to conclude whether it is better to add always one unsatisfied axiom to $A$ or it is better to add one for each multiplication term or some multiplication terms.
+We play around because we know that we will not get the same solution for different heuristics.
+It is entirely up to us how we want to play with the axioms.
+That is why we try different ways to compute the running time and evaluate to find the best heuristic.\newline
 
-\noindent So far, we have seen that we have generated five types of axioms in our work: zero axiom, monotonicity axiom, tangent plane axiom, congruence axiom and ICP axiom.
-Each heuristic will be applied on different sequences of these axiom types for collecting unsatisfied axioms.
+\noindent So far, we have seen that we have generated five types of axioms in our work: zero axiom, monotonicity axiom, tangent plane axiom, congruence axiom, and ICP axiom.
+Each heuristic will be applied to different sequences of these axiom types for collecting unsatisfied axioms.
 It is up to us how we want to make different sequences of axiom types.
-We try to place the lightweighted axiom type first in the sequences.
+We try to place the lightweight axiom type first in the sequences.
 We have used $7$ different sequences of axiom types:
 
 \begin{enumerate}
@@ -791,18 +822,19 @@ We have used $7$ different sequences of axiom types:
 
 \noindent We decide to use $3$ different heuristics over each sequence of axiom types to perform the refinement process:
 
+% checked
 \begin{enumerate}
 \label{item:heuristics}
     \item \textbf{Heuristic $1$:} Each loop will be run over the axioms following a given fixed order (one of the $7$ orders above).
     It will search in this order for an axiom instance that is violated by the solution for the abstraction.
-    The first such axiom instance is added to $A$ and the refinement process terminates.
+    The first such axiom instance is added to $A$, and the refinement process terminates.
     \item \textbf{Heuristic $2$:} Similarly to $1$, but when a violating axiom instance is found then all violating instances of the given axiom are added to $A$.
     \item \textbf{Heuristic $3$:} Similarly to $2$ but here a percentage of unsatisfied axioms are deleted from $A$ randomly.
     We have also chosen this percentage randomly from $25\%$ to $50\%$ of the size of $A$.
 \end{enumerate}
 
 \noindent Notice that if we apply each heuristic over each sequence, we will get $21$ different solutions for $\hat{\varphi}$.
-We compute running time and evalute it for different ways.
+We compute running time and evaluate it in different ways.
 The evaluation result is discussed in the Chapter \ref{chap:experimental_result}.
 
 

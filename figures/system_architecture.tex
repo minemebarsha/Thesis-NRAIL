@@ -1,0 +1,28 @@
+\begin{tikzpicture}[node distance = 2cm, auto]
+    % Place nodes\node [block] ()
+    \node [block] (nra) {NRA Formula, $\varphi$};
+    \node [cloud, below=0.5cm of nra] (linearization) {Linearization};
+    \node [block, below of=linearization] (lra) {LRA Formula, $\hat{\varphi}$};
+    \node [cloud, below=0.5cm of lra] (smtsolver) {SMT Solver};
+    \node [block, below of=smtsolver] (satmod) {SAT + Model ($\hat{\mu}$) of $\hat{\varphi}$};
+    \node [block, right of=smtsolver, node distance=4cm] (unsatorunknown) {UNSAT / UNKNOWN};
+    \node [block, below of=satmod] (ext) {Extend $\hat{\mu}$ to assign all variables in  $\varphi$};
+    \node [cloud, left=1.5cm of ext] (formula) {$\hat{\varphi} := \hat{\varphi} \wedge \bigwedge\limits_{\psi \in A} \psi$};
+    \node [decision, below=0.7 of ext] (decide) {$\mu \models \varphi ?$};
+    \node [block, right of=decide, node distance=4cm] (sat) {SAT};
+    \node [block, below=0.8cm of decide] (refinement) {Refinement for NRA};
+    \node [cloud, below=0.5cm of refinement] (setofaxioms) {Set A of axioms unsatisfied under $\hat{\mu}$};
+    % Draw edges
+    \path [line] (nra) -- (linearization);
+    \path [line] (linearization) -- (lra);
+    \path [line] (lra) -- (smtsolver);
+    \path [line] (smtsolver) -- (satmod);
+    \path [line] (smtsolver) -- (unsatorunknown);
+    \path [line] (formula) |- (smtsolver);
+    \path [line] (satmod) -- (ext);
+    \path [line] (ext) -- (decide);
+    \path [line] (decide) -- node {No}(refinement);
+    \path [line] (decide) -- node {Yes}(sat);
+    \path [line] (refinement) -- (setofaxioms);
+    \path [line] (setofaxioms) -| (formula);
+\end{tikzpicture}

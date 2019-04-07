@@ -10,6 +10,7 @@
 \section{Experimental Setup}
 %/
 %/////////////////////////////////////////////////
+% checked
 We evaluate our implementation by running some benchmarks over different strategies as well as solvers.
 We have used QF\_NRA benchmarks \cite{SMTLIB-benchmarks} from SMT-LIB \cite{BarFT-SMTLIB}.
 We run the benchmarks on a cluster having multiple processors of 2.10 GHz Intel Xeon Platinum 8160 and 8GB of memory per process.
@@ -20,24 +21,27 @@ We decided to use a timeout of 120 seconds (s) per problem instance for the expe
 \section{Results}
 %/
 %/////////////////////////////////////////////////
-We have already described in the section \ref{subsubsec:Module_Settings} that we use different strategies \textit{NRARefinementSolver$1$}, \textit{NRARefinementSolver$2$}, $\dots$, \textit{NRARefinementSolver$21$} which are mentioned as  smtrat$1$, smtrat$2$, $\dots$, smtrat$21$, respectively in this chapter. 
+% checked
+\begin{sloppypar}
+We have already described in Section \ref{subsubsec:Module_Settings} that we use different strategies \textit{NRARefinementSolver$1$}, \textit{NRARefinementSolver$2$}, $\dots$, \textit{NRARefinementSolver$21$} which are mentioned as  smtrat$1$, smtrat$2$, $\dots$, smtrat$21$, respectively in this chapter. 
 The results for smtrat$1$, smtrat$2$, $\dots$, smtrat$21$ without preprocessing (WoP) are reported in Table \ref{table:results_our_solvers} where the first column contains the solver's name.
-The second and third column contain the number of satisfiable and unsatisfiable instances that could solve within the time limit, respectively with average solving time.
+The second and third column contains the number of satisfiable and unsatisfiable instances that could solve within the time limit, respectively with average solving time.
 The total number of solved instances with the percentage of the solution is reported in the last column from worst to best.
 The detailed settings of each solver are also provided in Table \ref{table:ourSolvers_heuristics_sequences} by a pair of heuristic type and sequence of axiom types (Section \ref{subsubsec:Module_Settings}).\newline
+\end{sloppypar}
 
 \noindent Table \ref{table:results_our_solvers} shows some interesting aspects.
 The solver smtrat4 performs the best, whereas smtrat7 performs the worst.
 However, smtrat11 and smtrat3 solve the highest number of satisfiable and unsatisfiable instances, respectively.
 It is noticeable that six solvers of heuristic type \textit{ALL} which is marked green perform the best in a row.
-On the other hand, the red marked rows highlight all solvers of heuristic type \textit{RANDOM} perform worse than other solvers in a row.
+On the other hand, the rows marked red   highlight all solvers of heuristic type \textit{RANDOM} perform worse than other solvers in a row.
 Also, this group of solvers solves less unsatisfiable instances compared to other solvers.
-We can see that smtrat7, smtrat14 and smtrat21 share same sequence of axiom types from Table \ref{table:ourSolvers_heuristics_sequences}.
-Interestingly, two solvers smtrat7 and smtrat21 among these three solvers rank at the last which demonstrates that sequence $7$ is not effective because it has the most  expensive axiom monotonicity at the very beginning of the sequence.
-Sequence $4$ is followed by both our best solver smtrat4 and the highest number of satisfiable instances solving solver smtrat11.
+We can see that smtrat7, smtrat14, and smtrat21 share the same sequence of axiom types from Table \ref{table:ourSolvers_heuristics_sequences}.
+Interestingly, two solvers smtrat7 and smtrat21 among these three solvers rank at the last which demonstrates that sequence $7$ is not effective because it has the most expensive axiom monotonicity at the very beginning of the sequence.
+The sequence $4$ is followed by both our best solver smtrat4 and the highest number of satisfiable instances solving solver smtrat11.
 Moreover, smtrat4 and smtrat11 take less solving time on average for both instances than most of the solvers.
 So, it can be said that sequence $4$ is the most effective sequence where our defined axiom ICP is placed at the beginning and ICP helps to reach the solution more quickly.
-It also can be said that a pair of heuristic type ALL and sequence $4$ helps to improves the performance of a solver.
+It also can be said that a pair of heuristic type ALL and sequence $4$ helps to improve the performance of a solver.
 Therefore, we decide to consider smtrat4  for further evaluation which follows heuristic type ALL to collect unsatisfiable axioms by performing refinement over sequence $4$.\newline
 
 \begin{table}[]
@@ -213,27 +217,28 @@ Therefore, we decide to consider smtrat4  for further evaluation which follows h
     \label{table:ourSolvers_heuristics_sequences}
 \end{table}
 
+% checked
 \noindent Table \ref{table:smtrat4_vs_mathsatAndZ3} has the same structure as Table \ref{table:results_our_solvers}.
-Here we compare smtrat4 with other two SMT solvers z3 \cite{10.1007/978-3-540-78800-3_24} and mathsat \cite{ 10.1007/978-3-642-36742-7_7}.
+Here, we compare smtrat4 with other two SMT solvers z3 \cite{10.1007/978-3-540-78800-3_24} and mathsat \cite{ 10.1007/978-3-642-36742-7_7}.
 We have taken two versions of smtrat4 which are without preprocessing (WoP) and with preprocessing (WP).
 In order to compare the heuristics without external influence of other modules, we switched off preprocessing.
 Smtrat4 WoP and WP both get the same original inputs but switching on preprocessing help.
-So, for compatibilty we add also a version WP.
-It is clearly visible that z3 and mathsat have excellent performance than smtrat4 in all cases.
+So, for compatibility, we add also a version WP.
+It is visible that z3 and mathsat have excellent performance than smtrat4 in all cases.
 The SMT solver z3 implements expensive and complete techniques based on variants of cylindrical algebraic decomposition \cite{Cimatti:2018:ILS:3274693.3230639}.
-The SMT solver mathsat implements the incremental approach as described in \cite{irfan2018incremental} which was a PhD thesis and we have implemented the same approach in our thesis but our implementation is rather prototypical.
-So, we are interested to compare smtrat4 with mathsat as both implements the same approach.\newline
+The SMT solver mathsat implements the incremental approach as described in \cite{irfan2018incremental} which was a Ph.D. thesis, and we have implemented the same approach in our thesis, but our implementation is rather prototypical.
+So, we are interested in comparing smtrat4 with mathsat as both implements the same approach.\newline
 
 \noindent The solver smtrat4 WP solves above 2.3K satisfiable and 4.3K unsatisfiable instances but smtrat4 WoP solves below 2K satisfiable and 4K unsatisfiable instances.
 So, the performance of smtrat4 is increased by $8\%$ while switching on preprocessing.
 Also, smtrat4 performs much better for unsatisfiable benchmarks than satisfiable benchmarks for both cases whether switching off or on preprocessing.
 We can see that mathsat solves above $3.5$K satisfiable and $5.2$K unsatisfiable instances.
-As a result, the overall performance of mathsat is enhanced by $27\%$ than smtrat4 WoP but the enhancement is decreased to $19\%$ compared to smtrat4 WP.
+As a result, the overall performance of mathsat is enhanced by $27\%$ than smtrat4 WoP, but the enhancement is decreased to $19\%$ compared to smtrat4 WP.
 Remember that our solver outputs only UNSAT if LRA formula is unsatisfied by the SMT solver and SAT by checking if input NRA formula $\varphi$ is satisfied by the estimated model $\mu$ (Figure \ref{fig:system_architecture_ours}).
-Here we use different SMT solver than mathsat to solve the LRA formulas.
-We only extend the LRA model $\hat{\mu}$ but we did not implement the repair.
+Here, we use different SMT solver than mathsat to solve the LRA formulas.
+We only extend the LRA model $\hat{\mu}$, but we did not implement the repair.
 On the contrary, mathsat tried to repair $\hat{\mu}$ which might help.
-And furthermore, we refine $\hat{\mu}$ differently with different heuristics.
+Furthermore, we refine $\hat{\mu}$ differently with different heuristics.
 However, the tendency can be observed the same in the SAT case and z3 which was a normal approach seems to be incomparable.\newline
 
 % mathsat
@@ -275,11 +280,12 @@ However, the tendency can be observed the same in the SAT case and z3 which was 
     \label{table:smtrat4_vs_mathsatAndZ3}
 \end{table}
 
-\noindent Figure \ref{fig:Survival_plots_smtrat4} illustrates the survival plots which compares two versions of smtrat4, mathsat and z3.
-The x-axis shows the number of instances solved within the corresponding time and the y-axis shows the runtime in second.
+% checked
+\noindent Figure \ref{fig:Survival_plots_smtrat4} illustrates the survival plots which compares two versions of smtrat4, mathsat, and z3.
+The x-axis shows the number of instances solved within the corresponding time, and the y-axis shows the runtime in second.
 The survival plots behave exponentially.
-The solver smtrat4 WoP solves the least number of instances and z3 solves the highest number of instances within the time limit.
-However, smtrat WP and mathsat solves approximately $6.7$K and $8.9$K instances in total.
+The solver smtrat4 WoP solves the least number of instances, and z3 solves the highest number of instances within the time limit.
+However, smtrat WP and mathsat solve approximately $6.7$K and $8.9$K instances in total.
 Initially, both of the smtrat4 solvers start solving instances earlier than z3 followed by mathsat.
 The performance of smtrat4 decreases later.\newline
 
@@ -287,7 +293,7 @@ The performance of smtrat4 decreases later.\newline
 We have generated these scatter plots to compare pairwise solvers on individual benchmark instances.
 Each point $(x, y)$ in a scatter represents a benchmark instance which was solved by a solver in time $x$ and another solver in time $y$.
 Points on the inner edges labeled by T indicate timeouts, whereas on the outer edges labeled by M indicate memory outs.
-We have choosen smtrat by switching on preprocessing to draw the scatter plots because this solver performs better than switching off preprocessing.\newline
+We have chosen smtrat by switching on preprocessing to draw the scatter plots because this solver performs better than switching off preprocessing.\newline
 
 \begin{figure}[!ht]
 \caption{Survival plots for smtrat4 WoP, smtrat WP, mathsat and z3} 
@@ -324,19 +330,20 @@ We have choosen smtrat by switching on preprocessing to draw the scatter plots b
 \label{fig:Survival_plots_smtrat4} 
 \end{figure}
 
+% checked
 \noindent Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_mathsat} shows the scatter plot for smtrat WP with mathsat.
 We can see a thick cloud at (0, 0) which means that smtrat4 WP and mathsat solve many instances quickly.
-Then a thinner cloud extends linearly titled to the bottom specially near the x-axis.
+Then a thinner cloud extends linearly titled to the bottom especially near the x-axis.
 So, mathsat is faster than smtrat4 WP for most of the instances.
-There is also a branch near the y-axis, thus smtrat4 WP is also faster than mathsat for some instances.
-In addition, the dots on the edge T parallel to y-axis implies the instances which was solved by mathsat but smtrta4 WP was unable to solve those.
-Similarly, the dots on the edge T parallel to x-axis implies the opposite phenomena though the dots are in less number compared to the edge T parallel to y-axis.
-We can see a different behaviour in Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_z3} which is the scatter plot for smtrat4 WP and z3.
-Here the cloud is distributed.
+There is also a branch near the y-axis; thus smtrat4 WP is also faster than mathsat for some instances.
+Besides, the dots on the edge T parallel to y-axis implies the instances which were solved by mathsat, but smtrta4 WP was unable to solve those.
+Similarly, the dots on the edge T parallel to x-axis implies the opposite phenomena though the dots are in less number compared to the edge T parallel to the y-axis.
+We can see different behavior in Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_z3} which is the scatter plot for smtrat4 WP and z3.
+Here, the cloud is distributed.
 There is a cloud splits with one branch near the x-axis and another branch near the y-axis.
 There are also some dots that are a bit tilted to the top or the bottom of the linear line.
-It means that both solvers behave similarly for these instances.
-The solver z3 could also solve huge number of instances for which smtrat4 WP results in timeouts.
+It means that both solvers behave similarly to these instances.
+The solver z3 could also solve a massive number of instances for which smtrat4 WP results in timeouts.
 \newline
 
 \begin{figure}[!ht]
@@ -355,6 +362,7 @@ The solver z3 could also solve huge number of instances for which smtrat4 WP res
     \label{fig:Scatter_plot_for_smtrat4_WP_and_z3}
 \end{figure}
 
+% checked
 \noindent We already know that we have defined three heuristic types and seven sequences of axiom types.
 We have also seen that the a pair of heuristic type ALL and sequence $4$ can enhance the performance of a solver.
 In other words, ICP has an influence on the enhancement of the performance.
@@ -443,13 +451,14 @@ So, for experimental purpose we create four additional SMT-RAT solvers (smtrat22
 \label{table:Summary_of_smrat4_and_other_additional_smtrat_solvers}
 \end{table}
 
+% checked
 \noindent We exclude the axiom type monotonicity from the sequence for each of these solvers as monotonicity is the most costly to generate.
 The results are reported in Table \ref{table:Summary_of_smrat4_and_other_additional_smtrat_solvers} which maintains the same structure as Tables \ref{table:results_our_solvers} and \ref{table:smtrat4_vs_mathsatAndZ3}.
-It is highly visible that the total number of solved instances has increased the most for smtrat24 WP than smtrat4 WP and the increment is $3\%$.
+It is highly visible that the total number of solved instances has increased the most for smtrat24 WP than smtrat4 WP and the increment is $2\%$.
 As a result, the difference of overall performances between our solver and mathsat has decreased from $19\%$ to $17\%$.
 Notice that smtrat24 follows almost the same pattern of the sequence $4$ except that ICP is inserted after each different axiom type in its sequence.
 Figures \ref{fig:Scatter_plot_for_smtrat24_WP_and_mathsat} and \ref{fig:Scatter_plot_for_smtrat24_WP_and_z3} are the scatter plots for smtrat24 WP with mathsat and z3, respectively.
-These two scatter plots have the same behaviour as like the scatter plots for smtrat4 WP with mathsat (Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_mathsat}) and z3 (Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_z3}), respectively.s\newline
+These two scatter plots have the same behaviour as like the scatter plots for smtrat4 WP with mathsat (Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_mathsat}) and z3 (Figure \ref{fig:Scatter_plot_for_smtrat4_WP_and_z3}), respectively.\newline
 
 \begin{figure}[]
     \centering
