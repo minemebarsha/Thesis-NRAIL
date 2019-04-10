@@ -16,11 +16,11 @@ For the ease of solving NRA formula, we decide to perform abstraction for NRA fo
 This thesis work is motivated by the Ph.D. thesis \cite{Cimatti:2018:ILS:3274693.3230639} and the idea is to create a LRA formula for the input NRA formula by abstracting multiplication terms iteratively.
 If the LRA model does not satisfy the NRA formula, then refinement is performed over a set of axioms to remove the spurious assignments until we get SAT or UNSAT or UNKNOWN.
 Moreover, we have introduced three types of heuristics with different sequences of axioms for collecting unsatisfiable formulas which are added to LRA formula.
-We have also introduced ICP axioms for refinement which is one of the future work of \cite{Cimatti:2018:ILS:3274693.3230639}.\newline
+We have also introduced ICP axioms for refinement which was one of the future work of \cite{Cimatti:2018:ILS:3274693.3230639}.\newline
 
 \noindent We have integrated this method as a module in SMT-RAT.
 We have evaluated the performance of the module in Chapter \ref{chap:experimental_result}.
-We have seen that the module can solve $53\%$ instances in total.
+We have seen that the module can solve $60\%$ instances in total.
 For now, the percentage is satisfactory as this module is a prototype and there are scopes available to improve the module which is mentioned in the following section.
 We are unable to implement these as we have time limitations.
 We are expecting a significant enhancement of the performance once the mentioned future works will be integrating with the module.
