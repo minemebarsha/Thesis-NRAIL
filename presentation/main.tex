@@ -66,65 +66,60 @@
 \begin{frame}{Contents}
     \begin{itemize}
         \item \textcolor<1>{blue}{Motivation}
-		\item \textcolor<2>{blue}{Incremental linearization (IL) approach}
-		\begin{itemize}
-		    \item \textcolor<3>{blue}{Linearization}
-		\item \textcolor<4>{blue}{Example}
-		\end{itemize}
-		\item \textcolor<5>{blue}{Contributions}
-		\begin{itemize}
-		    \item \textcolor<6>{blue}{Contributions (flow chart)}
-		    \item \textcolor<7>{blue}{Linearization}
-		    \item \textcolor<8>{blue}{Refinement Process}
-		    \item \textcolor<9>{blue}{Example}
-		\end{itemize}
-		\item \textcolor<10>{blue}{Experimental Results}
-		\item \textcolor<11>{blue}{Future Work}
-		\item \textcolor<12>{blue}{Conclusion}
+		\item \textcolor<2>{blue}{Incremental linearization (IL) approach}\newline
+		(Ph.D. thesis by Ahmed Irfan, 2018)
+		\item \textcolor<3>{blue}{Contributions}
+		\item \textcolor<4>{blue}{Experimental Results}
+		\item \textcolor<5>{blue}{Future Work}
+		\item \textcolor<6>{blue}{Conclusion}
     \end{itemize}
 \end{frame}
 
 \section{Motivation}
 \begin{frame}{Motivation}
+    \textbf{Problem}
     \begin{itemize}
-        \item \textcolor<1>{blue}{Non-linear real arithmetic (NRA) formula is hard to solve.}
-		\item \textcolor<2>{blue}{Solving NRA formulas is costly in worst case.}
-% 		Solving NRA formulas by Cylindrical Algebraic Decomposition (CAD) techniques requires double exponential time in worst case.
-		\item \textcolor<3>{blue}{So, the applicability is restricted in practice.}
-		\item \textcolor<4>{blue}{SMT techniques and tools are available for the quantifier-free linear arithmetic formula (QFLRA).}
+        \item \textcolor<1>{blue}{Satisfiability checking for quantifier-free non-linear real arithmetic formula (QFNRA) is computationally expensive.}
+        \item \textcolor<2>{blue}{So, the applicability is restricted in practice.}
+    \end{itemize}
+    \bigskip
+    \bigskip
+    \textbf{Solution}
+    \begin{itemize}
+		\item \textcolor<3>{blue}{SMT techniques and tools are available for solving quantifier-free linear arithmetic formulas (QFLRA).}
 % 		Powerful and effective SMT techniques and tools are available for the quantifier-free linear arithmetic formula (QFLRA).
-		\item \textcolor<5>{blue}{Try to use LRA solving techniques for NRA.}
+		\item \textcolor<4>{blue}{Try to use LRA solving techniques for NRA.}
     \end{itemize}
 \end{frame}
 
 \section{Incremental linearization (IL) approach}
 \begin{frame}{Incremental linearization (IL) approach}
 % Define block styles
-\tikzstyle{decision} = [diamond, draw, 
+\tikzstyle{decision} = [diamond, draw, fill=gray!20,
     text width=2.5em, text badly centered, node distance=3cm, inner sep=0pt]
-\tikzstyle{block} = [rectangle, draw, 
+\tikzstyle{block} = [rectangle, draw, fill=gray!20,
     text width=12em, text centered, rounded corners, minimum height=1em]
 \tikzstyle{line} = [draw, -latex']
-\tikzstyle{cloud} = [draw, ellipse, node distance=3cm,
+\tikzstyle{cloud} = [draw, fill=gray!20, ellipse, node distance=3cm,
     minimum height=1em]
 \begin{figure}
 \centering
 \scalebox{0.75}{
  \begin{tikzpicture}[node distance = 1cm, auto]
     % Place nodes\node [block] ()
-    \node [block] (nra) {\textcolor<1>{blue}{NRA Formula, $\varphi$}}; 
+    \node [block] (nra) {\textcolor<1>{RWTHblue}{NRA formula $\varphi$}}; 
     % \node[block, left of nra] (Phd Thesis, Ahmed Irfan, 2018)
-    \node [cloud, below=0.3cm of nra] (linearization) {\textcolor<2>{blue}{Linearization}};
-    \node [block, below of=linearization] (lra) {\textcolor<3>{blue}{LRA Formula, $\hat{\varphi}$}};
-    \node [cloud, below=0.3cm of lra] (smtsolver) {\textcolor<4>{blue}{SMT Solver}};
-    \node [block, below of=smtsolver] (satmod) {\textcolor<4>{blue}{SAT + Model $\hat{\mu}$ of $\hat{\varphi}$}};
-    \node [block, right of=smtsolver, node distance=4cm, minimum height=3em, text width=7em] (unsatorunknown) {\textcolor<4>{blue}{UNSAT / UNKNOWN}};
-    \node [block, below=0.3cm of satmod] (ext) {\textcolor<5>{blue}{Try to derive assignments of $\mu$ that satisfies $\varphi$}};
-    \node [cloud, left=0.5cm of ext] (formula) {\textcolor<8>{blue}{$\hat{\varphi} := \hat{\varphi} \wedge \bigwedge\limits_{\psi \in A} \psi$}};
-    \node [decision, below=0.3 of ext, text width=4em] (decide) {\textcolor<6>{blue}{$\mu \models \varphi ?$}};
-    \node [block, right of=decide, node distance=4cm, minimum height=1em, text width=7em] (sat) {\textcolor<6>{blue}{SAT}};
-    \node [block, below=0.7cm of decide] (refinement) {\textcolor<6>{blue}{Refinement for NRA}};
-    \node [cloud, below=0.5cm of refinement] (setofaxioms) {\textcolor<7>{blue}{Set A of axioms unsatisfied under $\hat{\mu}$}};
+    \node [cloud, below=0.3cm of nra] (linearization) {\textcolor<2>{RWTHblue}{Linearization}};
+    \node [block, below of=linearization] (lra) {\textcolor<3>{RWTHblue}{LRA formula $\hat{\varphi}$}};
+    \node [cloud, below=0.3cm of lra] (smtsolver) {\textcolor<4>{RWTHblue}{SMT solver}};
+    \node [block, below of=smtsolver] (satmod) {\textcolor<4>{RWTHblue}{SAT + Model $\hat{\mu}$ of $\hat{\varphi}$}};
+    \node [block, right of=smtsolver, node distance=4cm, minimum height=3em, text width=7em] (unsatorunknown) {\textcolor<4>{RWTHblue}{UNSAT / UNKNOWN}};
+    \node [block, below=0.3cm of satmod] (ext) {\textcolor<5>{RWTHblue}{Try to derive assignments of $\mu$ that satisfies $\varphi$}};
+    \node [cloud, left=0.5cm of ext] (formula) {\textcolor<8>{RWTHblue}{$\hat{\varphi} := \hat{\varphi} \wedge \bigwedge\limits_{\psi \in A} \psi$}};
+    \node [decision, below=0.3 of ext, text width=4em] (decide) {\textcolor<6>{RWTHblue}{$\mu \models \varphi ?$}};
+    \node [block, right of=decide, node distance=4cm, minimum height=1em, text width=7em] (sat) {\textcolor<6>{RWTHblue}{SAT}};
+    \node [block, below=0.7cm of decide] (refinement) {\textcolor<6>{RWTHblue}{Refinement for NRA}};
+    \node [cloud, below=0.5cm of refinement] (setofaxioms) {\textcolor<7>{RWTHblue}{Set A of axioms unsatisfied under $\hat{\mu}$}};
     % Draw edges
     \path [line] (nra) -- (linearization);
     \path [line] (linearization) -- (lra);
@@ -145,18 +140,16 @@
 
 \section{Linearization}
 \begin{frame}{Linearization}
-    $$\underbrace{ \underbrace{ \underbrace{ \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)} \ast \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)}}\limits_{e_{2} = f_{*}(e_{1}, e_{1})} \ast \underbrace{ \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)} \ast \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)}}\limits_{e_{2} = f_{*}(e_{1}, e_{1})}}\limits_{e_{3} = f_{*}(e_{2}, e_{2})} \ast x}\limits_{e_{4} = f_{*}(e_{3}, x)}$$
+    $$\textcolor<1>{blue}{\underbrace{ \underbrace{ \underbrace{ \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)} \ast \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)}}\limits_{e_{2} = f_{*}(e_{1}, e_{1})} \ast \underbrace{ \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)} \ast \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)}}\limits_{e_{2} = f_{*}(e_{1}, e_{1})}}\limits_{e_{3} = f_{*}(e_{2}, e_{2})} \ast x}\limits_{e_{4} = f_{*}(e_{3}, x)} \quad > \quad 5}$$
+    \bigskip
+    $$\textcolor<2>{blue}{f_{*}(f_{*}(f_{*}(f_{*}(x, x), f_{*}(x, x)), f_{*}(f_{*}(x, x), f_{*}(x, x))), x) \quad > \quad 5}$$
 \end{frame}
 
 \section{Available axiom types}
 \begin{frame}{Available axiom types}
-    \begin{itemize}
-        \item Zero
-        \item Sign
-		\item Commutativity
-		\item Monotonicity
-		\item Tangent plane
-    \end{itemize}
+\begin{figure}
+    \includegraphics[scale=0.93]{../figures/Lstaxioms.pdf}
+\end{figure}
 \end{frame}
 
 \section{Example}
@@ -170,24 +163,31 @@
 		\item \textcolor<3>{blue}{Let, abstract model $\hat{\mu}$:
 % 		 contains the following assignments
     $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[f_{\ast}(t_{1}, s_{1})] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[f_{\ast}(t_{2}, s_{2})] = 5$$}
-    \item \textcolor<4>{blue}{These assignments violates the \textcolor<4>{green}{semantics of multiplication}.}
+    \item \textcolor<4>{blue}{These assignments violates the \textcolor<4>{green!80!black}{semantics of multiplication}.}
     \end{itemize}
-    \invisible<1-4>{\textcolor<5>{blue}{\textbf{Idea:} Identify violated \textcolor{green}{LRA} properties and extend the formula with them.}}
+    \invisible<1-4>{\textcolor<5>{blue}{\textbf{Idea:} Identify violated \textcolor{green!80!black}{LRA} properties and extend the formula with them.}}
 \end{frame}
 
 \section{Example}
 \begin{frame}{Example (cont.)}
     \begin{itemize}
-        \item \textcolor{red}{Abstract model $\hat{\mu}$:  $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[f_{\ast}(t_{1}, s_{1})] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[f_{\ast}(t_{2}, s_{2})] = 5$$}
+        \item \textcolor{red!80!black}{Abstract model $\hat{\mu}$:  $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[f_{\ast}(t_{1}, s_{1})] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[f_{\ast}(t_{2}, s_{2})] = 5$$}
         \item \textcolor<1>{blue}{Violates following tautology:
-    $$((t_{2} < 0 \wedge s_{2} > 0) \vee (t_{2} > 0 \wedge s_{2} < 0)) \leftrightarrow \textcolor<2>{green}{(t_{2} \ast s_{2})} < 0$$}
+    $$((t_{2} < 0 \wedge s_{2} > 0) \vee (t_{2} > 0 \wedge s_{2} < 0)) \leftrightarrow \textcolor<2>{green!80!black}{(t_{2} \ast s_{2})} < 0$$}
         \item \textcolor<2>{blue}{Whose abstraction is:
-    $$((t_{2} < 0 \wedge s_{2} > 0) \vee (t_{2} > 0 \wedge s_{2} < 0)) \leftrightarrow \textcolor<2>{green}{f_{\ast}(t_{2}, s_{2})} < 0$$}
+    $$((t_{2} < 0 \wedge s_{2} > 0) \vee (t_{2} > 0 \wedge s_{2} < 0)) \leftrightarrow \textcolor<2>{green!80!black}{f_{\ast}(t_{2}, s_{2})} < 0$$}
     \end{itemize}
 \end{frame}
 
 \section{Example}
 \begin{frame}{Example (cont.)}
+    \centering
+    \textbf{Tangent plane (one dimensional)}
+\end{frame}
+
+\section{Example}
+\begin{frame}{Example (cont.)}
+    \textbf{Tangent plane (two dimensional)}
         \begin{overlayarea}{12cm}{5.5cm}
     	\centering
     	\begin{minipage}{5cm}
@@ -211,6 +211,7 @@
 
 \section{Example}
 \begin{frame}{Example (cont.)}
+    \textbf{Tangent plane (two dimensional)}
         \begin{overlayarea}{12cm}{5.5cm}
     	\centering
     	\begin{minipage}{5cm}
@@ -235,16 +236,20 @@
 \section{Example}
 \begin{frame}{Example (cont.)}
     \begin{itemize}
-        \item \textcolor{red}{Abstract model $\hat{\mu}$:  $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[f_{\ast}(t_{1}, s_{1})] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[f_{\ast}(t_{2}, s_{2})] = 5$$}
-        \item \textcolor<1>{blue}{Violates the Tangent-plane axiom in the points \textcolor<1>{green}{$(2, 3)$ and $(3, -4)$}}.
+        \item \textcolor{red!80!black}{Abstract model $\hat{\mu}$:  $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[f_{\ast}(t_{1}, s_{1})] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[f_{\ast}(t_{2}, s_{2})] = 5$$}
+        \item \textcolor<1>{blue}{Violates the Tangent-plane axiom in the points \textcolor<1>{green!80!black}{$(2, 3)$ and $(3, -4)$}}.
         \bigskip
-        \item \textcolor<2-5>{blue}{At $(2, 3)$: 
+        \item \textcolor<2-4>{blue}{At $(2, 3)$: 
 \begin{table}[]
 \begin{tabular}{l}
-\textcolor<3>{green}{$f_{\ast}(2, s_{1}) = 2 \ast s_{1} \hspace{1mm} \wedge$}  \\
-\textcolor<3>{green}{$f_{\ast}(t_{1}, 3) = 3 \ast t_{1} \hspace{1.5mm} \wedge$}  \\
-\textcolor<4>{green}{$((t_{1} > 2 \wedge s_{1} < 3) \vee (t_{1} < 2 \wedge s_{1} > 3)) \rightarrow f_{\ast}(t_{1}, s_{1}) < 3 \ast t_{1} + 2 \ast s_{1} - 6 \hspace{1mm} \wedge$} \\
-\textcolor<5>{green}{$((t_{1} < 2 \wedge s_{1} < 3) \vee (t_{1} > 2 \wedge s_{1} > 3)) \rightarrow f_{\ast}(t_{1}, s_{1}) > 3 \ast t_{1} + 2 \ast s_{1} - 6 \hspace{1mm} \wedge$}
+\textcolor<4>{black}{
+\textcolor<3>{green!80!black}{$f_{\ast}(2, s_{1}) = 2 \ast s_{1} \hspace{1mm} \wedge$}}  \\
+\textcolor<4>{black}{
+\textcolor<3>{green!80!black}{$f_{\ast}(t_{1}, 3) = 3 \ast t_{1} \hspace{1.5mm} \wedge$}}  \\
+\textcolor<3>{black}{
+\textcolor<4>{green!80!black}{$((t_{1} > 2 \wedge s_{1} < 3) \vee (t_{1} < 2 \wedge s_{1} > 3)) \rightarrow f_{\ast}(t_{1}, s_{1}) < \textcolor<4>{red!80!black}{3 \ast t_{1} + 2 \ast s_{1} - 6} \hspace{1mm} \wedge$}} \\
+\textcolor<3>{black}{
+\textcolor<4>{green!80!black}{$((t_{1} < 2 \wedge s_{1} < 3) \vee (t_{1} > 2 \wedge s_{1} > 3)) \rightarrow f_{\ast}(t_{1}, s_{1}) > \textcolor<4>{red!80!black}{3 \ast t_{1} + 2 \ast s_{1} - 6} \hspace{1mm} \wedge$}}
 \end{tabular}
 \end{table}}
     \end{itemize}
@@ -253,7 +258,7 @@
 \section{Contributions}
 \begin{frame}{Contributions}
     \begin{itemize}
-        \item \textcolor<1>{blue}{This thesis adapt and improve this method.}
+        \item \textcolor<1>{blue}{We adapt and improve this method.}
         \item \textcolor<2>{blue}{Linearization process is adapted by variables.}
 		\item \textcolor<3>{blue}{Add 3 new axiom types for refinement.}
 		\item \textcolor<4>{blue}{Experiment with different heuristics.}
@@ -314,15 +319,15 @@
 
 \section{Linearization}
 \begin{frame}{Linearization}
-    \begin{itemize}
-        \item {$$\underbrace{ \underbrace{ \underbrace{ \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)} \ast \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)}}\limits_{e_{2} = f_{*}(e_{1}, e_{1})} \ast \underbrace{ \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)} \ast \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)}}\limits_{e_{2} = f_{*}(e_{1}, e_{1})}}\limits_{e_{3} = f_{*}(e_{2}, e_{2})} \ast x}\limits_{e_{4} = f_{*}(e_{3}, x)}$$}
-        \item \textcolor{blue}{$$\underbrace{ \underbrace{ \underbrace{ \underbrace{ x \ast x }\limits_{z_{1}} \ast \underbrace{ x \ast x }\limits_{z_{1}}}\limits_{z_{2}} \ast \underbrace{ \underbrace{ x \ast x }\limits_{z_{1}} \ast \underbrace{ x \ast x }\limits_{z_{1}}}\limits_{z_{2}}}\limits_{z_{3}} \ast x}\limits_{z_{4}}$$}
-    \end{itemize}
+         $$\underbrace{ \underbrace{ \underbrace{ \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)} \ast \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)}}\limits_{e_{2} = f_{*}(e_{1}, e_{1})} \ast \underbrace{ \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)} \ast \underbrace{ x \ast x }\limits_{e_1 = f_{*}(x, x)}}\limits_{e_{2} = f_{*}(e_{1}, e_{1})}}\limits_{e_{3} = f_{*}(e_{2}, e_{2})} \ast x}\limits_{e_{4} = f_{*}(e_{3}, x)}  \quad > \quad 5$$
+        $f_{*}(f_{*}(f_{*}(f_{*}(x, x), f_{*}(x, x)), f_{*}(f_{*}(x, x), f_{*}(x, x))), x) \quad > \quad 5$
+         \textcolor{blue}{$$\underbrace{ \underbrace{ \underbrace{ \underbrace{ x \ast x }\limits_{z_{1}} \ast \underbrace{ x \ast x }\limits_{z_{1}}}\limits_{z_{2}} \ast \underbrace{ \underbrace{ x \ast x }\limits_{z_{1}} \ast \underbrace{ x \ast x }\limits_{z_{1}}}\limits_{z_{2}}}\limits_{z_{3}} \ast x}\limits_{z_{4}}  \quad > \quad 5$$
+        $z_{4}  \quad > \quad 5$}
 \end{frame}
 
 \section{Refinement Process}
 \begin{frame}{Refinement Process}
-    \textcolor<1>{blue}{\textbf{Available axiom types: }Zero, \textcolor<3>{green}{Sign, Commutativity}, Monotonicity, Tangent plane.}
+    \textcolor<1>{blue}{\textbf{Available axiom types: }Zero, \textcolor<3>{green!80!black}{Sign, Commutativity}, Monotonicity, Tangent plane.}
     \bigskip
     \bigskip
     \begin{itemize}
@@ -345,13 +350,25 @@
 
 \section{Refinement Process}
 \begin{frame}{Refinement Process (Cont.)}
+    \textbf{ICP (one dimensional case)}
+    \bigskip
+    \bigskip
+   \begin{itemize}
+   \item \textcolor<1>{blue}{Consider, $z = x^2$}.
+   \item \textcolor<2>{blue}{Absolute values of $x, \text{ and } z$:
+    $$|\mu(x)| = a, \quad  \text{ and } \quad |\mu(z)| = c \quad (a, c \neq 0)$$}
+\end{itemize}
+\end{frame}
+
+\section{Refinement Process}
+\begin{frame}{Refinement Process (Cont.)}
     \textbf{ICP (two dimensional case)}
     \bigskip
     \bigskip
    \begin{itemize}
-   \item \textcolor<1>{blue}{Consider, \textcolor<1>{green}{$z = x*y$}.}
+   \item \textcolor<1>{blue}{Consider, $z = x*y$}.
    \item \textcolor<2>{blue}{Absolute values of $x, y \text{ and } z$:
-\textcolor<2>{green}{$$|\mu(x)| = a, \quad  |\mu(y)| = b \quad \text{ and } \quad |\mu(z)| = c$$}}
+    $$|\mu(x)| = a, \quad  |\mu(y)| = b \quad \text{ and } \quad |\mu(z)| = c \quad (a, b, c \neq 0)$$}
 \end{itemize}
 \end{frame}
 
@@ -359,24 +376,24 @@
 \begin{frame}{Refinement Process (Cont.)}
     \textbf{ICP (two dimensional case)}\newline
     
-    \textcolor{red}{If the product $c$ is assumed too low ($c < a \ast b$):}
+    \textcolor{red}{If the product $c$ is too low ($c < a \ast b$):}
     \begin{overlayarea}{12cm}{5.5cm}
     	\centering
     	\begin{minipage}{5cm}
     		\vspace{1cm}
-    		\begin{figure}	\includegraphics<1>[scale=0.8]{../figures/ICP1_1.pdf}
+    		\begin{figure}	\only<1,2>{\includegraphics[scale=0.8]{../figures/ICP1_1.pdf}}
     		\end{figure}
     		\centering
     		\vspace{-0.5cm}
-    		Choose, $\frac{c}{a} < b^\prime \leq b$
+    		\only<1,2>{Choose, $\frac{c}{a} < b^\prime \leq b$}
     	\end{minipage}
     	\begin{minipage}{5cm}
     		\vspace{1cm}
-    		\begin{figure}	\includegraphics<1>[scale=0.8]{../figures/ICP1_2.pdf}
+    		\begin{figure}	\only<2>{\includegraphics[scale=0.8]{../figures/ICP1_2.pdf}}
     		\end{figure}
     		\centering
     		\vspace{-0.5cm}
-    		Choose, $\frac{c}{b^\prime} < a^\prime \leq a$
+    		\only<2>{Choose, $\frac{c}{b^\prime} < a^\prime \leq a$}
     	\end{minipage}
     \end{overlayarea}
 \end{frame}
@@ -385,59 +402,12 @@
 \begin{frame}{Refinement Process (Cont.)}
     \textbf{ICP (two dimensional case)}\newline
     
-    So, for \textcolor{green}{$c < a \ast b$} we have two axioms:
-    \bigskip
-    \bigskip
-    \begin{itemize}
-        \item \textcolor{blue}{$$((x \geq a^\prime \wedge y \geq b^\prime) \vee (x \leq -a^\prime \wedge y \leq -b^\prime)) \rightarrow (z \geq c^\prime)$$}
-        \item \textcolor{blue}{$$((x \geq a^\prime \wedge y \leq -b^\prime) \vee (x \leq -a^\prime \wedge y \geq b^\prime)) \rightarrow (z \leq -c^\prime)$$}
-    \end{itemize}
-\end{frame}
-
-% \section{Refinement Process}
-% \begin{frame}{Refinement Process (Cont.)}
-%     \textbf{ICP (two dimensional case)}\newline If the product $c$ is assumed too high ($c > a \ast b$):
-%     \begin{overlayarea}{12cm}{5.5cm}
-%     	\centering
-%     	\begin{minipage}{5cm}
-%     		\vspace{1cm}
-%     		\begin{figure}	\includegraphics[scale=0.8]{../figures/ICP2_1.pdf}
-%     		\end{figure}
-%     		\centering
-%     		\vspace{-0.5cm}
-%     		Choose, $b \leq b^\prime < \frac{c}{a}$
-%     	\end{minipage}
-%     	\begin{minipage}{5cm}
-%     		\vspace{1cm}
-%     		\begin{figure}	\includegraphics[scale=0.8]{../figures/ICP2_2.pdf}
-%     		\end{figure}
-%     		\centering
-%     		\vspace{-0.5cm}
-%     		Choose, $a \leq a^\prime < \frac{c}{b^\prime}$
-%     	\end{minipage}
-%     \end{overlayarea}
-% \end{frame}
-
-\section{Refinement Process}
-\begin{frame}{Refinement Process (Cont.)}
-     \textbf{ICP (two dimensional case)}\newline 
-     
-     \textcolor{red}{If the product $c$ is assumed too high \textcolor{green}{($c > a \ast b$):}}
-     \bigskip
-     \bigskip
-    \textcolor{blue}{$$(-a^\prime \leq x \leq a^\prime) \wedge (-b^\prime \leq y \leq b^\prime) \rightarrow (-c^\prime \leq z \leq c^\prime)$$}
-\end{frame}
-
-\section{Refinement Process}
-\begin{frame}{Refinement Process (Cont.)}
-    \textbf{ICP (one dimensional case)}
-    \bigskip
-    \bigskip
-   \begin{itemize}
-   \item \textcolor<1>{blue}{Consider, \textcolor<1>{green}{$z = x*y$}.}
-   \item \textcolor<2>{blue}{Absolute values of $x, \text{ and } z$:
-\textcolor<2>{green}{$$|\mu(x)| = a, \quad  \text{ and } \quad |\mu(z)| = c$$}}
-\end{itemize}
+    \textcolor<1>{blue}{For $c < a \ast b$:
+        $$((x \geq a^\prime \wedge y \geq b^\prime) \vee (x \leq -a^\prime \wedge y \leq -b^\prime)) \rightarrow (z \geq c^\prime)$$
+        $$((x \geq a^\prime \wedge y \leq -b^\prime) \vee (x \leq -a^\prime \wedge y \geq b^\prime)) \rightarrow (z \leq -c^\prime)$$}\newline
+        
+    \invisible<1>{\textcolor<2>{blue}{For $c > a \ast b$:
+    $$(-a^\prime \leq x \leq a^\prime) \wedge (-b^\prime \leq y \leq b^\prime) \rightarrow (-c^\prime \leq z \leq c^\prime)$$}}
 \end{frame}
 
 \section{Example}
@@ -450,74 +420,146 @@
         % $t_{1} \ast s_{1}$ and $t_{2} \ast s_{2}$ are abstracted by $f_{\ast}(t_{1}, s_{1})$ and $f_{\ast}(t_{2}, s_{2})$, respectively and an abstracted formula $\hat{\varphi}$ is being created.
 		\item \textcolor<3>{blue}{Assume, abstract model $\hat{\mu}$:
 % 		 contains the following assignments
-    $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[f_{\ast}(t_{1}, s_{1})] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[f_{\ast}(t_{2}, s_{2})] = 5$$}
+    $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[z_{1}] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[z_{2}] = 5$$}
     \end{itemize}
 \end{frame}
 
 \section{Example}
 \begin{frame}{Example (cont.)}
     \begin{itemize}
-        \item \textcolor{red}{Abstract model $\hat{\mu}$:  $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[f_{\ast}(t_{1}, s_{1})] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[f_{\ast}(t_{2}, s_{2})] = 5$$}
+        \item \textcolor{red!80!black}{Abstract model $\hat{\mu}$:  $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[z_{1}] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[z_{2}] = 5$$}
         \item \textcolor<1>{blue}{Violates following  Zero tautology:
-    $$((t_{2} < 0 \wedge s_{2} > 0) \vee (t_{2} > 0 \wedge s_{2} < 0)) \leftrightarrow \textcolor<2>{green}{(t_{2} \ast s_{2})} < 0$$}
+    $$((t_{2} < 0 \wedge s_{2} > 0) \vee (t_{2} > 0 \wedge s_{2} < 0)) \leftrightarrow \textcolor<2>{green!80!black}{(t_{2} \ast s_{2})} < 0$$}
         \item \textcolor<2>{blue}{Whose abstraction was:
-    $$((t_{2} < 0 \wedge s_{2} > 0) \vee (t_{2} > 0 \wedge s_{2} < 0)) \leftrightarrow \textcolor<2>{green}{f_{\ast}(t_{2}, s_{2})} < 0$$}
+    $$((t_{2} < 0 \wedge s_{2} > 0) \vee (t_{2} > 0 \wedge s_{2} < 0)) \leftrightarrow \textcolor<2>{green!80!black}{f_{\ast}(t_{2}, s_{2})} < 0$$}
         \item \textcolor<2>{blue}{Now, abstraction is:
-    $$((t_{2} < 0 \wedge s_{2} > 0) \vee (t_{2} > 0 \wedge s_{2} < 0)) \leftrightarrow \textcolor<2>{green}{z_{2}} < 0$$}
+    $$((t_{2} < 0 \wedge s_{2} > 0) \vee (t_{2} > 0 \wedge s_{2} < 0)) \leftrightarrow \textcolor<2>{green!80!black}{z_{2}} < 0$$}
     \end{itemize}
 \end{frame}
 
 \section{Example}
 \begin{frame}{Example (cont.)}
     \begin{itemize}
-        \item \textcolor{red}{Abstract model $\hat{\mu}$:  $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[f_{\ast}(t_{1}, s_{1})] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[f_{\ast}(t_{2}, s_{2})] = 5$$}
+        \item \textcolor{red!80!black}{Abstract model $\hat{\mu}$:  $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[z_{1}] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[z_{2}] = 5$$}
         \item \textcolor<1>{blue}{Violates the Tangent-plane axiom in the points \textcolor<1>{green}{$(2, 3)$ and $(3, -4)$}}.
         \item \textcolor<2>{blue}{At $(2, 3)$: 
 \begin{table}[]
 \begin{tabular}{l}
 $f_{\ast}(2, s_{1}) = 2 \ast s_{1} \hspace{1mm} \wedge$  \\
 $f_{\ast}(t_{1}, 3) = 3 \ast t_{1} \hspace{1.5mm} \wedge$ \\
-$((t_{1} > 2 \wedge s_{1} < 3) \vee (t_{1} < 2 \wedge s_{1} > 3)) \rightarrow \textcolor<2>{green}{z_{1}} < 3 \ast t_{1} + 2 \ast s_{1} - 6 \hspace{1mm} \wedge$ \\
-$((t_{1} < 2 \wedge s_{1} < 3) \vee (t_{1} > 2 \wedge s_{1} > 3)) \rightarrow \textcolor<2>{green}{z_{1}} > 3 \ast t_{1} + 2 \ast s_{1} - 6 \hspace{1mm} \wedge$
+$((t_{1} > 2 \wedge s_{1} < 3) \vee (t_{1} < 2 \wedge s_{1} > 3)) \rightarrow \textcolor<2>{green!80!black}{z_{1}} < 3 \ast t_{1} + 2 \ast s_{1} - 6 \hspace{1mm} \wedge$ \\
+$((t_{1} < 2 \wedge s_{1} < 3) \vee (t_{1} > 2 \wedge s_{1} > 3)) \rightarrow \textcolor<2>{green!80!black}{z_{1}} > 3 \ast t_{1} + 2 \ast s_{1} - 6 \hspace{1mm} \wedge$
 \end{tabular}
 \end{table}}
     \end{itemize}
 \end{frame}
 
-\section{Experimental Results}
-\begin{frame}{Experimental Results}
+\section{Example}
+\begin{frame}{Example (cont.)}
     \begin{itemize}
-        \item \textcolor<1>{blue}{We have 7 \textcolor<1>{green}{sequences} of axioms, i.e., Zero, Tangent plane, ICP, Congruence, Monotonicity.} 
-        \bigskip
-        \bigskip
-        \item \textcolor<2-5>{blue}{Heuristics}
-        \bigskip
-        \begin{itemize}
-            \item \textcolor<3>{blue}{Take the \textcolor<3>{green}{first} axiom instance that is violated by the solution for the abstraction.}
-            \bigskip
-            \item \textcolor<4>{blue}{Take \textcolor<4>{green}{all} violated axiom instances.}
-            \bigskip
-            \item \textcolor<5>{blue}{Choose axiom instances \textcolor<5>{green}{randomly} from the set of all violated axiom instances.}
-        \end{itemize}
+        \item \textcolor{red!80!black}{Abstract model $\hat{\mu}$: $$\hat{\mu}[t_{1}] = 2, \quad \hat{\mu}[s_{1}] = 3, \quad \hat{\mu}[z_{1}] = 7,$$ $$\hat{\mu}[t_{2}] = 3, \quad \hat{\mu}[s_{2}] = -4, \quad \hat{\mu}[z_{2}] = 5$$}
+        \item \textcolor<1>{blue}{Violates ICP axiom as $|\hspace{1mm}\hat{\mu}[z_{1}]\hspace{1mm}| \hspace{1mm} > \hspace{1mm} |\hspace{1mm}\hat{\mu}[t_{1}]\hspace{1mm}| \ast |\hspace{1mm}\hat{\mu}[s_{1}]\hspace{1mm}|$:
+         $$(-a^\prime \leq t_{1} \leq a^\prime) \wedge (-b^\prime \leq s_{1} \leq b^\prime) \rightarrow (-c^\prime \leq z_{1} \leq c^\prime)$$}
+         \item \textcolor<2>{blue}{Choose $a^\prime = 2$ and $b^\prime =3$:
+         $$(-2 \leq t_{1} \leq 2) \wedge (-3 \leq s_{1} \leq 3) \rightarrow (-6 \leq z_{1} \leq 6)$$}
     \end{itemize}
 \end{frame}
 
 \section{Experimental Results}
 \begin{frame}{Experimental Results}
+    \tikzstyle{block} = [rectangle, draw, fill=gray!20,
+    text width=6em, text centered, rounded corners, minimum height=6em]
+\tikzstyle{line} = [draw, -latex']
+\begin{figure}
+\centering
+\scalebox{0.75}{
+ \begin{tikzpicture}[node distance = 1cm, auto]
+    % Place nodes\node [block] ()
+    \node [block, fill=yellow!20,text width=5em] (des) {{Sequence:}};
+    \node [block, fill=yellow!20,text width=5em, below=1cm of des] (heu) {{Heuristics:}};
+    \node [block, right=0.3cm of des] (zero) {{Zero}};
+    \node [block, right=0.3cm of zero] (tangentplane) {{Tangent Plane}};
+    \node [block, right=0.3cm of tangentplane] (icp) {{ICP}};
+    \node [block, right=0.3cm of icp] (congruence) {{Congruence}};
+    \node [block, right=0.3cm of congruence] (monotonicity) {{Monotonicity}};
+    \only<1,6,7,8>{\node (hu11) [block,draw, below = 1cm of zero] {
+        \begin{tabular}{c}
+            \only<1,6>{\colorbox{red}{First} \\}
+            \only<7,8>{First \\}
+            \only<1,6,8>{All \\}
+            \only<7>{\colorbox{red}{All} \\}
+            \only<1,6,7>{Random \\}
+            \only<8>{\colorbox{red}{Random} \\}
+        \end{tabular}
+        };}
+    \only<2>{\node (hu12) [block,draw, below = 1cm of tangentplane] {
+        \begin{tabular}{c}
+            \colorbox{red}{First} \\
+            All \\
+            Random \\
+        \end{tabular}
+        };}
+    \only<3>{\node (hu13) [block,draw, below = 1cm of icp] {
+        \begin{tabular}{c}
+            \colorbox{red}{First} \\
+            All \\
+            Random \\
+        \end{tabular}
+        };}
+    \only<4>{\node (hu14) [block,draw, below = 1cm of congruence] {
+        \begin{tabular}{c}
+            \colorbox{red}{First} \\
+            All \\
+            Random \\
+        \end{tabular}
+        };}
+    \only<5>{\node (hu15) [block,draw, below = 1cm of monotonicity] {
+        \begin{tabular}{c}
+            \colorbox{red}{First} \\
+            All \\
+            Random \\
+        \end{tabular}
+        };}
+    % Draw edges
+    \only<1,6,7,8>{\path [line] (hu11) -- (zero);}
+    \only<2>{\path [line] (hu12) -- (tangentplane);}
+    \only<3>{\path [line] (hu13) -- (icp);}
+    \only<4>{\path [line] (hu14) -- (congruence);}
+    \only<5>{\path [line] (hu15) -- (monotonicity);}
+\end{tikzpicture}}
+ \label{fig:system_architecture_ours}
+\end{figure}
+\end{frame}
+
+\section{Experimental Results}
+\begin{frame}{Experimental Results}
 \textbf{SMT-RAT}
+\begin{figure}
+    \includegraphics[scale=0.63]{../figures/smtrat-arch-Page-2.pdf}
+\end{figure}
+\end{frame}
+
+\section{Experimental Results}
+\begin{frame}{Experimental Results}
+\textbf{Strategy of NRARefinementSolver}
 \bigskip
-\bigskip
-\begin{itemize}
-    \item \textcolor<1>{blue}{An open source toolbox for SMT solving.}
-    \bigskip
-    \item \textcolor<2>{blue}{A collection of SMT compliant implementations of methods.}
-    \bigskip
-    \item  \textcolor<3>{blue}{Solves quantifier-free LRA, NRA, LIA, NIA formulas.}
-    \bigskip
-    \item \textcolor<4>{blue}{Modules are the elementary architectural component.}
-\end{itemize}
-\bigskip
-\invisible<1-4>{\textcolor<5>{blue}{\textbf{SMT-RAT IL solvers:} \hspace{1mm} smtrat(\hspace{1mm}heuristic no.,\hspace{1mm} sequence no.)}}
+% Define block styles
+\tikzstyle{block} = [rectangle, draw, fill=gray!20,
+    text width=12em, text centered, rounded corners, minimum height=3em]
+\tikzstyle{line} = [draw, -latex']
+\begin{figure}
+\centering
+\scalebox{1}{
+ \begin{tikzpicture}[node distance = 1cm, auto]
+    % Place nodes\node [block] ()
+    \node [block] (NRAILModule) {NRAILModule};
+    \node [block, below=0.5cm of NRAILModule] (SATModule) {SATModule};
+    \node[block, below=0.5cm of SATModule] (LRAModule) {LRAModule};
+    % Draw edges
+    \path [line] (NRAILModule) -- (SATModule);
+    \path [line] (SATModule) -- (LRAModule);
+\end{tikzpicture}}
+\end{figure}
 \end{frame}
 
 \section{Experimental Results}
@@ -599,5 +641,12 @@ $((t_{1} < 2 \wedge s_{1} < 3) \vee (t_{1} > 2 \wedge s_{1} > 3)) \rightarrow \t
         \item \textcolor<1>{blue}{Scopes available to enhance the performance.}
     \end{itemize}
 \end{frame}
+
+\section{End}
+\begin{frame}{}
+    \centering  
+    \huge{Thank you!}
+\end{frame}
+
 \end{document}
 
