@@ -1,0 +1,223 @@
+1::
+Hello everyone, I am aklima zaman. Today I am going to present my masters thesis. my topic is "Incremental Linearization for SATModulo Real Arithmetic Solving".
+
+2::
+first we will know what was the motivation.
+
+then i will explain IL approach which was a part of the phd thesis by irfan.
+
+then i will say my contribution in this thesis.
+
+then we will have a look of the experimental results
+
+and what is ou future work
+
+Finally i will conclude the talk.
+
+3::
+This thesis is about checking the satisfiability of QFNRA and it is computionally expensive. for example, Cylindrical Algebraic Decomposition (CAD) techniques requires double exponential time to solve such formulas. 
+
+so it restricts the applicability in practice. we will refrd QFNRA as nra in teh future and we knw that its qf fragement. 
+
+we thought linear is hopeful. because Powerful and effective SMT techniques and tools are available for the quantifier-free linear arithmetic formula (QFLRA). we will also refrd it as nra in teh future. 
+
+that is why we try to solve nra by lra solving techniques.
+
+4::
+this is the flow chart of IL approach for SMT solving as done in the phd thesis.
+input is a QFNRA formula. 
+
+the given input goes through a linearization process 
+
+which outputs a LRA formula. 
+
+then this LRA is passed to SMT solver. if it finds unsat or unknown the process just stops. what if it finds sat? If it finds sat with the solution set 
+
+then it tries to derive assignments of mu which is the model of input nra.
+
+if it is succeeded then we get sat and it has nothing to do. 
+
+otherwise they try to refine the linear abstraction by running each abstraction over a list of axioms. 
+
+then it collects the unsatisfied axioms and 
+
+adds them to the LRA formula which is passed to SMT solver again. so what this approach does? it defines a LRA f for the input NRA f and if the solution set of LRA is found over approximative which doesnt satisfy the non linear one then it refines the linear abstraction by making the solution set smmaler. The solution set gets smaller means that it is getting closer to the non-linear formula though in general it is not necessarily reached. That is why this method is incomplete.
+
+5::
+they abstract by UF but in phd thesis it is not explicitly said that in which order they do. we do this order because we do abstract in this order in our thesis. but we are not sure that if they also do it in this way.
+
+and this is how the linear abstraction looks like. 
+
+6::
+now, here we can see some axioms. i know its not readable. actually its not for reading just for an idea that how many it is and how they look like? they r in group of five types. we don't have enough time to explain all but these are very basic properties of multiplication. but the tangent plane is their main contribution. 
+
+7::
+let us have a look to an example.consider nra f has two multiplication terms t1*s1 and t2*s2.
+
+both r abstracted by UF.
+
+consider the abstract model or soluiton set is like this.
+
+it is visible that These assignments violates the semantics of multiplication. so what was their idea to resist this violation or these spurious assignments?
+
+their idea is to identify violated lra properties and then extend the formula with them.
+
+8::
+what kind of properties this abstract modes has violated? it violates this tautology which zero tautology for mult.
+
+whose abstraction is like this.
+
+9::
+before proceeding to know about the next violated properties i would like to give an idea about the tangent plane. consider the 1dim case. we have here x and we have here x2, actually it should be f*ofxx because this is the abstraction. let say if x is a this should be a2, but the value of this is smaller this is basically f*ofxx. this is currently the case. so the idea of tp is we put the derivative of the square fn this tangent plane here and say for each value for x the value for x2 should be above this plane. so this way we exclude this area form the soln space.
+
+10::
+for 2dim case the multi. looks this way. this surface is for x n y values and their product. also we want to exclude a set of point due to similar reason.
+
+11::
+in 2dim case we do something different. we see here now we have also tp  drawn at the given point. remeber that for 1dim the soln area was as a convex shape and we can exclude the soln by 1 tp. but here the tp cuts the fn. so we will need to divide a space into 4 regions and in 2 region the tru values are below these surface and two regions the values are above.
+
+12::
+let us continue the example. previously we have seen that zero tautology for mult. is violated. here tangent plane axiom is violated at 2 points.
+
+this is the abstraction of tp axiom. now it is not important to understand in details that would take too much time. but you have seen in the previous slides the intution. 
+
+at 2,3 this equality constraints will assure that the product of the values will not be 7 again.
+
+and here these are four quarters which i have just shown. for 2 quarters the true value should be less than tp and for other 2 quarter the true value should be larger than the tp.
+
+13::
+so far this was their idea. now Our contribution in this thesis is to adapt and improve this method.
+
+they adapted lp by UF but we adapt the process by variables.
+
+also we have added 3 new axiom types for refinement. 
+
+then we also experiment with different heuristics. these are the things which we have done.
+
+we didnt derive the solution set for nra formula from the abstract model rather extend it by guessing the assignments.
+
+lastly our refinement process is not entirley as like them.
+
+
+14::
+our contribution is here in the flo and the main algo is the same. we have done modifications in the marked component. as i said we perform linear abstraction by variables. then we extend the soluiton set for linear abstraction to assign values for all variables in NRA f. lastly the refinement process of abstrcat model.
+
+15::
+we have already seen the abstraction which is on the top. now the question is how we adapt the lp by variables.
+for each product we introduce a fresh var. for the same product we reuse the same variable. to show maximum reuse first consider the exponent for one variable and abstract it and multiply the result. it looks more simple.
+
+16::
+let us look what make our refinement process different? these are the axiom types used by them.
+
+we didn't use all of these types.
+
+we have skipped sign and commutativity because they are implied by normalize form of polynomials.
+
+we dint implement concave solution sets for time limittaion.
+
+on the other hand we have added 3 additional axioms which they didnt have. first one is for square expression which is basically tp for one dim.
+
+2nd one is for congruence because we will lose the congruence property due to the adaption of lp by variables. 
+
+the last one is for icp.
+
+17::
+first let us look icp for 1dim case. consider that square mult is abstracted by z and that is wrong.
+
+take the absolute values of x and z as a nd c where c<a2 means c is low.
+
+let us look at this picture. this is a and this is the square product of a. and this is the wrong value c. we want to exclude this c. so what we can do we can give a bound betn a2 and c st if x>= a certain bound then z should be >= the square of that bound. if we choose this 1 as bound then for all of the values >= to this the square product would be atleast this 1 or larger than this. it means that we would not have any square values which is here. so we can exclude this box which is the cross product of them.
+if we draw a tangent plane it will exclude this area. it miss this small portion which icp cover. on the other hand icp miss this part which tp covers.so in combination both have their strength and weaknesses, the strength of the tangent plane it excludes more but it is also harder to propagate, boxes r esy to handle by solver because they r just one variable combination of bounds thats why its easier to handle.
+if we use a tp approach then we can approximate form below by drawing this lines, these here are still over approximative areas, but these are expensive to compute and expensive to propagate, by boxes we can say something like we have larger over approximations, but these are easier to derive and easier to propagate, so we can take a combination perhaps. this was the refinement for convex solution sets.
+
+on the other hand, if c is high mens c>a2 we can exclude the inner portion means concave solution sets as box. similar to too low case we want to put a bound betn c and a2 such that for the boundary the square product is still less than c. here a' is the bound means that for this x values the square product cannot be on this line. it also covers the symmetric case. so this box is excluded. if i choose larger a' then wider box will be excluded. if choose it smaller then excluded box will be deeper.
+what they do if the values is in this sample this area is excluded, if this then this and so on. in this way they exclude this shape. for this these are over approximate areas. and for this these are over approximate areas.
+
+18::
+now how the icp axioms would look like for 2 dimensional case? consider we have a multi. and it is abstracted by z and that is wrong. this is not the semantics of mult. and this is our prb.
+
+we have absolute values of mu which assigns a to x, b to y and c to z but c<ab
+
+then what we want similar to 1dim which is to give a bound betn ab and c st if x>= a certain bo and y>= a certain bo then z should be >= the product of these bounds. so in this way we will put a bo st we can exclude c and also others. so how can we choose these bo st this holds.
+
+19::
+i show it here as 2dim because 3dim is not easy to draw. if we take original b then this is the ab and then we can make it smaller st we can choose a value so that every value for y larger than this value, the prod will be above here. so we exclude c. because if the value of y is on the horizontal green line then the product should be on the vertical green line which means the prod cant be on the red line. in this way we exclude c and some more. now the ques is how much we exclude? if we go deep for choosing b' then we exclude less c values for more b values. it cant be said wht is better and wht is worse.
+
+similarly we can set a bound for x too. 
+
+20::
+there are 3 other cases. if we generalize this observations for these 3cases we will have this 2 axioms.
+
+we have similar case also for c>ab. we can generalize it for xy and this is how it looks like. this is corresponds to that case where i explained 1dim.
+
+21::
+it is the same example as before.
+
+but now the abstraction doen by variables.
+
+and this the model for abstraction. basically we guess any value for t1 and s1. for this example we guess the same as previous one.
+
+22:
+ oviously it violates zero tautology.
+
+ whose abstraction was like this.
+
+ but now the abstraction is like this.
+
+ 23::
+ as we exten the model by guessing same values as before it violates tp in the same points.
+
+ and the violated axiom look like this.
+
+ 24::
+ now in addition it violates icp axioms. 7 is higher than 32. so it violates the axiom for too high case.
+
+ and this is how the axiom looks like if the bounds are chosen as this values.
+
+
+25::
+now what is sequence? sequence is a list of axiom types. and what is heuristic? heuristic is a way that how we want to select unsatisfied axioms to be added to lra formula. we have 7 sequences of axiom types and 3 types heuristics. now how these contribute in the refinement process? let us consider our solver is using this seq. initially points to the first entry in this sequence for a heuristic.  
+
+For each refinement, the axiom type to which the pointer points to is considered for refinement and the pointer is moved to the next entry for the same heu.
+
+in this way it continues to move to different axiom types for refining. if the pointer points to last type then 
+
+for next refinement it is again moved to first one. we can see here we have 3 heuristics. first means collect the very first violated axioms for an axiom type.
+
+all means collect all violated axioms for an axiom type.
+
+the last one random means collect randomly the violated axioms from all violated axioms for an axiom type.
+
+26::
+smt means sat modulo theories. Satisfiability Modulo Theories (SMT) solving is a technology for checking the
+satisfiability of [quantifier-free first-order logic] formulas over some theories. [A SAT solver solves the satisfiability checking problem by implementing a decision procedure. and the rsult is passed to the theory solver and it gives some feedback about the result to the SAT solver.]
+we have used SMT-RAT which is toolbox for smt solving. SMT-RAT has a collection of modules for solving quantifier-free logical formulas. Modules are SMT compliance implementation of satisfiability cheeking methods. We have added one more for non-linear real arithmetic formulas. These modules can be combined by strategies to form decision procedures. In the input we can give a logical formula and the name of the strategy and the toolbox checks the satisfiability of the formula.
+
+27::
+This is our defined strategy that contains our constructed module named NRAILModule on the top of other two modules offered by SMT-RAT. SATModule is a SAT solver. LRAModule can solve lra formulas. Here we do not took any other non linear modules from SMT-RAT to improve. We only use very basic linear solver from SMT-RAT and we put our solver on top of that.
+
+28::
+remember that we have 7 sequences and 3 heu. that is why here we have 21 smtrat solvers with the heu no as parameter 1 and seq no as param 2. it is visible that green marked solver performs better and they are ran for heu1 which is all. i think as for this solver all unsat axioms are collected they performs better than others in a row.
+the blue marked solvers are ran for heu first and the red marked solver are ran for heu random. interestingly a green marked solver performs the worst. i think it is because for this seques monotonicity axioms are checked initially. mono is the most expensive one. it may b the case that this solver outputs timeouts or meouts for most of the formulas at the begining.
+
+29::
+The solvers in the previous slide don't have any preprocessing. But here we want to show that applying some preprocessing improves the results. By implementing further functionalities in SMT-RAT, we could improve the result. Furthermore, our algorithm does not contain some effective components that are implemented in MathSAT, like the adaptation of solutions for the linearization to satisfy the non-linear problem or their piecewise linear refinement technique for concave solution spaces. So our work is not as good as them because it is not complete and optimized.
+
+30::
+In the previous slides, we have seen only the average running time for each solvers. Here, as an additional aspect we show the number of instances with actual running time. We can see that in the beginning, SMT-RAT is preprocessing better than the others and at the end the development of the curves is also similar. In the middle, other solvers solve about 3K instances faster than SMT-RAT. And may be this is the portion where the linear solver can't perform optimally. Due to time limitations, we could not do further evaluation. If we could compare the differences of the number of refinement loops or memory usage for the instances for all solvers, we would find more interesting reasons.
+
+31::
+We can see a thick cloud at (0, 0) which means that smtrat4 WP and MathSAT solve many instances quickly. Then a thinner cloud extends to the bottom especially near the horizontal axis. So, MathSAT is faster than smtrat4 WP for most of the instances. There is also a branch near the vertical axis; thus smtrat4 WP is also faster than
+MathSAT for some instances. Besides, the dots on the edge T parallel to the vertical axis implies the instances which were solved by MathSAT, but smtrat4 WP was unable to solve those. Similarly, the dots on the edge T parallel to the horizontal axis implies the opposite.
+
+32::
+we see dfrnt bhvr. the cloud is distributed. There is a cloud splits with one branch near the horizontal axis and another branch near the vertical axis. There are also some dots that are a bit to the top or the bottom of the
+linear line. It means that both solvers behave similarly to these instances. The solver Z3 could also solve a massive number of instances for which smtrat4 WP results in timeouts.
+
+33::
+currently we are excluding boxes by icp. but in future we can exclude regions of different shapes for example concave soln sets.
+
+also we can derive model for the input nra from abstract model of lra.
+
+34::
+we already know that we have intregated these method in smtrat as a module. for now the module ia prototype. we have many things to do to improve this module so that we can get a better peformance. also we could play around with the evaluation to find out more reasoning of the result. due to time limitaions we coudn't do that. 
